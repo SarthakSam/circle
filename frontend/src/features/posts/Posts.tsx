@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { IDLE, LOADING } from "../../app.constants";
+import { ERROR, IDLE } from "../../app.constants";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectPostsState, fetchPosts } from './postsSlice';
+import { showNotification } from '../meta-info/metaInfoSlice';
 
 export function Posts() {
     const {data, status} = useAppSelector(selectPostsState);
@@ -10,8 +11,10 @@ export function Posts() {
     useEffect( () => {
         if( status === IDLE )
             dispatch( fetchPosts() );
-        else if( status === LOADING )
-            console.log("Loading data from api");
+        // else if( status === ERROR ) {
+        //     dispatch( showNotification( { type: 'ERROR', message: 'Something went wrong' } ) );
+        // }
+            
     }, [dispatch, status]);
 
     return (

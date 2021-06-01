@@ -29,8 +29,8 @@ const postsData: IPost[] = [ {
 export function getPosts() {
     return new Promise<{ data: IPost[], message: string }>( (resolve, reject) => {
         setTimeout( () => {
-            resolve( { data: postsData, message: 'Success' } );
-            // reject();
+            // resolve( { data: postsData, message: 'Success' } );
+            reject({ errorMessage: 'Something went wrong' });
          }, 2000 );
     } );
 }
