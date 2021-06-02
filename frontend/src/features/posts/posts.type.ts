@@ -1,3 +1,4 @@
+
 export type IPost = {
     _id: string,
     author: string,
@@ -5,4 +6,9 @@ export type IPost = {
     images: [],
     comments: [],
     reactions: {}
+}
+
+export type IPostsResponse = {
+    posts: IPost[];
+    message: string;
 }

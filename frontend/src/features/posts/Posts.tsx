@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { ERROR, IDLE } from "../../app.constants";
+import { IDLE } from "../../app.constants";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { selectPostsState, fetchPosts } from './postsSlice';
-import { showNotification } from '../meta-info/metaInfoSlice';
+// import { showNotification } from '../meta-info/metaInfoSlice';
 
 export function Posts() {
     const {data, status} = useAppSelector(selectPostsState);

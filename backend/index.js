@@ -3,7 +3,7 @@ const express = require('express'),
       mongoose = require('mongoose'),
       postsRouter = require('./apis/posts.api');
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 mongoose.connect('mongodb://localhost:27017/social', {useNewUrlParser: true, useUnifiedTopology: true})
 .then( () => { console.log("DB connected") } )
