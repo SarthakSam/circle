@@ -1,7 +1,10 @@
 const express = require('express'),
       app     = express(),
       mongoose = require('mongoose'),
-      postsRouter = require('./apis/posts.api');
+      postsRouter = require('./apis/posts.api'),
+      isUserAuthenticated = require('./middlewares/isJwtValid'),
+      fetchUserDetails = require('./middlewares/fetchUserDetails');
+
 
 const PORT = process.env.PORT || 3001;
 
@@ -15,6 +18,14 @@ app.use('/posts', postsRouter);
 
 app.get('/', (req, res) => {
     res.send('Social App');
+});
+
+app.use(isUserAuthenticated);
+app.use(fetchUserDetails);
+
+app.post('/testing', (req, res) => {
+    console.log(req.userDetails);
+    res.send('testing');
 });
 
 app.listen(PORT, (err) => {

@@ -1,8 +1,11 @@
 const { Schema, model } = require('mongoose'),
 
 const UserSchema = new Schema({
-    username: { type: string, required: 'Username is mandatory', unique: 'Please choose a unique username'},
-    email: { type: string },
+    username: { type: String, required: 'Username is mandatory'},
+    email: { type: String, required: 'Email is mandatory', unique: 'A user with this email aready exists' },
+    profilePic: { type: String },
+    backgroundPic: { type: String},
+    emailVerified: { type: Boolean, default: false },
     friends: [ { type: Schema.Types.objectId, ref: 'User' } ]
 });
 
