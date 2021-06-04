@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import styles from './Home.module.css';
 
 export function Home() {
-    const { loginWithPopup  } = useAuth0();
+    const { loginWithRedirect } = useAuth0();
 
     return (
         <div className={`row ${styles.home}`} >
@@ -13,8 +13,8 @@ export function Home() {
                         <Link to="/">Connect</Link>
                     </span>
                     <ul>
-                        <button className={`btn btn--inverted ${styles.navBtn}`} onClick={ () => { loginWithPopup({ screen_hint: "signup" }) } } >Join Now</button>
-                        <button className={`btn btn--primary btn--inverted  ${styles.navBtn}`} onClick = { loginWithPopup } >Sign in</button>
+                        <button className={`btn btn--inverted ${styles.navBtn}`} onClick={ () => { loginWithRedirect({ screen_hint: "signup" }) } } >Join Now</button>
+                        <button className={`btn btn--primary btn--inverted  ${styles.navBtn}`} onClick = { () => { loginWithRedirect({ redirectUri: 'http://localhost:3000/feed' }) } } >Sign in</button>
                     </ul>
                 </nav>
                 <main className={ `row col-12 ${styles.main}` }>

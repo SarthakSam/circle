@@ -11,12 +11,12 @@ console.log(store.getState())
 
 const domain: string = process.env.REACT_APP_AUTH0_DOMAIN as string;
 const clientId: string = process.env.REACT_APP_AUTH0_CLIENT_ID as string;
-const audience: string = process.env.REACT_APP_API_IDENTIFIER as string;
+const audience: string = process.env.REACT_APP_API_IDENTIFIER as string;    
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
-      <Auth0Provider  domain={domain} clientId={clientId} redirectUri={window.location.origin} audience={audience} scope="openid profile email">
+      <Auth0Provider domain={domain} clientId={clientId} redirectUri={window.location.origin} audience={audience} scope="openid profile email">
         <Provider store={store}>
           <App />
         </Provider>

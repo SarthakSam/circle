@@ -5,6 +5,7 @@ import { NewPost } from './features/posts/new-post/NewPost';
 import { Posts } from './features/posts/Posts';
 import { Routes, Route } from 'react-router-dom';
 import { Home } from './components/home/Home';
+import Content from './components/content/Content';
 
 function App() {
   return (
@@ -12,11 +13,16 @@ function App() {
       <Routes>
         <Route path="/" element={ <Home />} />
         <Route path="/home" element={ <Home />} />
+        <Route path='/' element={ <Content /> } >
+           <Route path="feed" element={<Posts />} />
+           {/* <Route path="feed" element={<Posts />} /> */}
+           <Route path="newPost" element={<NewPost />} />
+        </Route>
       </Routes>
       {/* <Authentication />
       <NewPost />
-      <Posts />
-      <Loader /> */}
+      <Posts /> */}
+      <Loader /> 
     </div>
   );
 }
