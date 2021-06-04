@@ -9,7 +9,9 @@ export function Content() {
         <div className={ `row ${styles.content}` }>
             <Nav />
             <main className={ `row ${styles.main}` }>
-               <Outlet />
+                <div className="col-10">
+                   <Outlet />
+                </div>
             </main>
         </div>
     )
