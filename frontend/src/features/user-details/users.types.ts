@@ -6,5 +6,8 @@ export interface IUser {
     email?: string;
     posts?: IPost[];
     friends?: IUser[];
+    profilePic?: string;
+    backgroundPic?: string;
+    headline?: string;
     emailVerified?: boolean;
 }

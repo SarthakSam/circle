@@ -1,7 +1,8 @@
+import { IUser } from "../user-details/users.types"
 
 export type IPost = {
     _id: string,
-    author: string,
+    author: IUser,
     content: string,
     images: [],
     comments: [],

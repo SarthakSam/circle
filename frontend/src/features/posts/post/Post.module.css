@@ -1,0 +1,24 @@
+.post {
+    border: 1.4px solid var(--app-color-light-grey);
+    padding: 1em;
+    border-radius: 1em;
+    background-color: white;
+    margin: 0.5em 0;
+}
+
+.userInfo {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.meta {
+    font-size: 0.85rem;
+    padding: 0 0.5em;
+    color: var(--app-color-grey);
+    cursor: pointer;
+}
+
+.body {
+    white-space: pre-line;
+}
