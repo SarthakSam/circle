@@ -1,0 +1,13 @@
+.form {
+    background-color: white;
+    padding: 0.8em;
+    overflow: hidden;
+    border-radius: 1em;
+    margin: 0.5em;
+}
+
+.form > button {
+    float: right;
+    padding-left: 2em;
+    padding-right: 2em;
+}

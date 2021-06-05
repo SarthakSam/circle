@@ -34,6 +34,12 @@ export const metaInfoSlice = createSlice({
     name: 'metaInfo',
     initialState,
     reducers: {
+        showLoader: (state) => {
+            state.isLoading = true;
+        },
+        hideLoader: (state) => {
+            state.isLoading = false;
+        },
         showNotification: (state, action: PayloadAction<INotification>) => {
             state.notifications.push({ _id: '1' , ...action.payload });
         },
@@ -48,6 +54,7 @@ export const metaInfoSlice = createSlice({
             })
             .addMatcher(isRejectedAction, (state, action ) => {
                 console.log(action);
+                state.isLoading = false;
                 // state.notifications.push( { _id: '1', type: 'ERROR', message: action.error } )
             })
             .addDefaultCase((state) => {
@@ -56,7 +63,7 @@ export const metaInfoSlice = createSlice({
     }
 });
 
-export const { showNotification, clearNotification } = metaInfoSlice.actions;
+export const { showLoader, hideLoader, showNotification, clearNotification } = metaInfoSlice.actions;
 
 export const selectIsLoading = (state: RootState) => state.metaInfo.isLoading;
 

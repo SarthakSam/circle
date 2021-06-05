@@ -16,6 +16,7 @@ export function Nav() {
             </span>
             <ul className={ styles.navList }>
                <Link to='/feed' >Home</Link>
+               <Link to='/profile' >Profile</Link>
                <button className="btn btn--inverted" onClick={ signout }>Logout</button>
             </ul>
         </nav>

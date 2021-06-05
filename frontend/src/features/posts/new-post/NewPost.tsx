@@ -1,12 +1,13 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { useAppDispatch } from "../../../app/hooks";
 import { createPost } from "../postsSlice";
+import styles from './NewPost.module.css';
 
 export function NewPost() {
     const [content, setContent] = useState("");
     const dispatch = useAppDispatch();
     
-    const onContentChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const onContentChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setContent(event.target.value);
     }
 
@@ -16,9 +17,9 @@ export function NewPost() {
     }
 
     return (
-        <form onSubmit={ post }>
-            <input type="text" name="content" onChange = { onContentChange } />
-            <button>Post</button>
+        <form onSubmit={ post } className={styles.form}>
+            <textarea name="content" rows={6} className="textarea textarea--fluid" placeholder="What's in you mind?" onChange = { onContentChange } ></textarea>
+            <button className="btn btn--primary">Post</button>
         </form>
     )
 }

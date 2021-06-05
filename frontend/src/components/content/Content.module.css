@@ -1,6 +1,6 @@
 
 .main {
-    background: var(--color-light-grey);
+    background: var(--app-background-color);
     width: 100vw;
     /* align-items: center; */
     justify-content: space-around;
