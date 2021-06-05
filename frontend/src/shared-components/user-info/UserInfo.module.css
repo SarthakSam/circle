@@ -1,0 +1,13 @@
+.userInfo {
+    line-height: 1.3em;
+}
+
+.author {
+    font-weight: 700;
+}
+
+.metaInfo {
+    font-size: 0.85rem;
+    color: var(--app-color-grey);
+    margin: 0;
+}
