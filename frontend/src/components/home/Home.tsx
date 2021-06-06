@@ -4,10 +4,10 @@ import { useAuth0 } from '@auth0/auth0-react';
 import styles from './Home.module.css';
 
 export function Home() {
-    const { loginWithRedirect, isAuthenticated } = useAuth0();
+    const { loginWithRedirect } = useAuth0();
 
     const signup = () => {
-        loginWithRedirect({ screen_hint: "signup",  redirectUri: 'http://localhost:3000/profile'  });
+        loginWithRedirect({ screen_hint: "signup",  redirectUri: 'http://localhost:3000/initial-info'  });
     }
 
     const signin = () => {

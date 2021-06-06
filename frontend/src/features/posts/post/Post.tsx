@@ -63,6 +63,7 @@ export function Post({ _id, author, content, images, comments, reactions }: IPos
             </p>
             <div className={styles.userActions}>
                 <span className={ `${styles.likeBtn} ${ userReacted && styles.reacted }` } onClick = { onUserReaction } > <FaThumbsUp fill="inherit" /> Like</span>
+                { reactions.length }Likes
             </div>
             {/* <Reactions /> */}
         </div>

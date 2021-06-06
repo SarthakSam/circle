@@ -17,12 +17,14 @@
     "history": "^5.0.0-beta.9",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0",
     "react-linkify": "^1.0.0-alpha",
     "react-redux": "^7.2.4",
     "react-router": "^6.0.0-beta.0",
     "react-router-dom": "^6.0.0-beta.0",
     "react-scripts": "4.0.3",
-    "typescript": "^4.1.5"
+    "typescript": "^4.1.5",
+    "uuid": "^8.3.2"
   },
   "proxy": "http://localhost:3001",
   "scripts": {
@@ -45,5 +47,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/uuid": "^8.3.0"
   }
 }

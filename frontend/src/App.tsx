@@ -6,8 +6,9 @@ import { Home } from './components/home/Home';
 import Content from './components/content/Content';
 import { Feed } from './components/feed/Feed';
 import { Authentication } from './features/authentication/Authentication';
-import { Profile } from './features/user-details/Profile';
+// import { Profile } from './features/user-details/Profile';
 import { Notifications } from './features/meta-info/notifications/Notifications';
+import { InitialInfo } from './features/user-details/initialInfo';
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
         <Route path='/' element={ <Content /> } >
            <Route path="feed" element={<Feed />} />
            <Route path="newPost" element={<NewPost />} />
-           <Route path="profile" element={<Profile />} />
+           <Route path="/initial-info" element={ <InitialInfo />} />
+           {/* <Route path="profile" element={<Profile />} /> */}
         </Route>
            <Route path="private" element={<Authentication/>} />
       </Routes>
