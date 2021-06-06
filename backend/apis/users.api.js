@@ -4,8 +4,7 @@ const express = require('express'),
       {parseUserId, parseUserDetails} = require('../utils/parse-functions');
 
 router.get('/' , getUser, (req, res) => {
-    res.status(200).json({ message: 'Success', user: req.userDetails });
-    // const userId 
+    res.status(200).json({ message: 'Success', user: parseUserDetails(req.userDetails) });
 });
 
 // router.post('/users', async (req, res, next) => {
