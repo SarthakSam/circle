@@ -35,6 +35,13 @@ export const unlikePost = createAsyncThunk('posts/unlikePost', async (postId: st
     return {postId, reaction: resp.data.reaction};
 });
 
+export const commentOnPost = createAsyncThunk('posts/comment', async ({ postId, commentBody }: { postId: string, commentBody: string }, options) => {
+    const resp = await axios.post(getURL('comment', { postId }), { commentBody } );
+    const state = options.getState() as RootState;
+    console.log(state);
+    return { postId, comment: resp.data.comment, author: state.users.currentUser };
+} );
+
 export function isPendingPostAction(action: AnyAction) {
     return action.type === fetchPosts.pending || action.type === createPost.pending;
 }
@@ -51,30 +58,28 @@ export const postsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            // .addCase(fetchPosts.pending, (state: typeof initialState) => {
-            //     state.status = LOADING;
-            // })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IPost[]>) => {
                 state.data = action.payload;
                 state.status = SUCCESS;
             })
-            // .addCase(fetchPosts.rejected, (state) => {
-            //     state.status = ERROR;
-            // })
             .addCase(createPost.fulfilled, (state, action: PayloadAction<IPost>) => {
                 state.data.push(action.payload);
-                state.status = SUCCESS;
+                // state.status = SUCCESS;
             })
             .addCase(likePost.fulfilled, (state, action) => {
-                state.status = SUCCESS;
+                // state.status = SUCCESS;
                 const post = state.data.find( post => post._id === action.payload.postId );
                 post?.reactions.push(action.payload.reaction);
             })
             .addCase(unlikePost.fulfilled, (state, action) => {
-                state.status = SUCCESS;
+                // state.status = SUCCESS;
                 const post = state.data.find( post => post._id === action.payload.postId );
                 if(post)
                     post.reactions = post.reactions.filter( reaction => reaction._id !== action.payload.reaction._id );
+            })
+            .addCase(commentOnPost.fulfilled, (state, action) => {
+                const post = state.data.find( post => post._id === action.payload.postId );
+                post?.comments.push({ ...action.payload.comment, author: action.payload.author })
             })
             .addMatcher(isPendingPostAction, (state) => {
                 state.status = LOADING;

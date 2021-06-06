@@ -8,16 +8,18 @@ import { UserInfo } from "../../../shared-components/user-info/UserInfo";
 import { IPost, IReaction } from "../posts.type";
 import styles from './Post.module.css';
 import { selectCurrentUser } from '../../user-details/usersSlice';
-import { likePost, unlikePost } from "../postsSlice";
+import { commentOnPost, likePost, unlikePost } from "../postsSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { showNotification } from "../../meta-info/metaInfoSlice";
+import { NewComment } from "./new-comment/NewComment";
+import { Comment } from './comment/Comment';
 
 export function Post({ _id, author, content, images, comments, reactions }: IPost) {
     const [allContentVisible, setAllContentVisible] = useState(false);
     const [userReacted, setUserReacted] = useState(false);
+    const [commentBoxVisible, setCommentBoxVisible] = useState(false);
     const currentUser = useAppSelector(selectCurrentUser);
     const dispatch = useAppDispatch();
-
 
     const toggleAllContentVisible = () => {
         setAllContentVisible( visible => !visible );
@@ -42,6 +44,17 @@ export function Post({ _id, author, content, images, comments, reactions }: IPos
         }
     };
 
+    const postComment = async (commentText: string) => {
+        try {
+            const resultAction = await dispatch(commentOnPost({ postId: _id, commentBody: commentText }));
+            unwrapResult(resultAction);
+            setCommentBoxVisible(false);
+        } catch (error) {
+            console.log(error);
+            dispatch(showNotification({ type: "ERROR", message: "Something went wrong" }));
+        }
+    }
+
     return (
         <div className={styles.post}>
              <div className={styles.userInfo}>
@@ -63,8 +76,15 @@ export function Post({ _id, author, content, images, comments, reactions }: IPos
             </p>
             <div className={styles.userActions}>
                 <span className={ `${styles.likeBtn} ${ userReacted && styles.reacted }` } onClick = { onUserReaction } > <FaThumbsUp fill="inherit" /> Like</span>
-                { reactions.length }Likes
+                <span className={ `${styles.likeBtn}` }onClick={ () => { setCommentBoxVisible(true) } } >Comment</span>
             </div>
+                { reactions.length }Likes
+                { commentBoxVisible && <NewComment closeCommentBox={ setCommentBoxVisible } postComment = { postComment } /> }
+                 <ul>
+                     {
+                         comments.map( comment => <li key = {comment._id}> <Comment {...comment} /> </li> )
+                     }
+                 </ul>
             {/* <Reactions /> */}
         </div>
     )

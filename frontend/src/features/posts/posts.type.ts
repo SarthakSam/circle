@@ -5,7 +5,7 @@ export type IPost = {
     author: IUser,
     content: string,
     images: [],
-    comments: [],
+    comments: IComment[],
     reactions: IReaction[]
 }
 
@@ -20,4 +20,11 @@ export type IReaction = {
     _id?: string;
     reactedBy: string;
     type: IReactionTypes;
+}
+
+export type IComment = {
+    content: string;
+    _id: string;
+    author: IUser;
+    comments: IComment[];
 }
