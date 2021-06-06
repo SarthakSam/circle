@@ -1,6 +1,8 @@
 import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router";
+import { useAppDispatch } from "../../app/hooks";
+import { getUserDetails } from "../../features/user-details/usersSlice";
 import { setupAuthHeaderForServiceCalls } from "../../utils/setAuthorizationToken";
 import { Nav } from "../nav/Nav";
 
@@ -9,6 +11,7 @@ import styles from './Content.module.css';
 export function Content() {
     const { getAccessTokenSilently } = useAuth0();
     const [isAuthTokenSet, setIsAuthToken] = useState(false);
+    const dispatch = useAppDispatch();
 
     (async () => {
         try {
@@ -19,6 +22,12 @@ export function Content() {
             console.log(error);
         }
     })();
+
+    useEffect( () => { 
+        if(isAuthTokenSet) {
+            dispatch( getUserDetails() );
+        }
+     }, [isAuthTokenSet] );
 
     return (
         <div className={ `row ${styles.content}` }>

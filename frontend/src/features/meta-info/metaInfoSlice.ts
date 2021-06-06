@@ -1,6 +1,7 @@
 import { AnyAction, AsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit"
 import { RootState } from "../../app/store"
-import { INotification, INotificationObj, IApiError } from "./metaInfo.types"
+import { INotification, INotificationObj } from "./metaInfo.types";
+import { v4 as uuidv4 } from 'uuid';
 
 export type IMetaInfoState = {
     isLoading: boolean;
@@ -41,7 +42,7 @@ export const metaInfoSlice = createSlice({
             state.isLoading = false;
         },
         showNotification: (state, action: PayloadAction<INotification>) => {
-            state.notifications.push({ _id: '1' , ...action.payload });
+            state.notifications.push({ _id: uuidv4() , ...action.payload });
         },
         clearNotification: (state, action: PayloadAction<string> ) => {
             state.notifications = state.notifications.filter( notification => notification._id !== action.payload )

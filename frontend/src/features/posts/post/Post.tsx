@@ -1,17 +1,46 @@
-import { useState } from "react";
-import { Avatar } from "../../../shared-components/avatar/Avatar";
-import { UserInfo } from "../../../shared-components/user-info/UserInfo";
+import { useEffect, useState } from "react";
+import { FaThumbsUp } from 'react-icons/fa';
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 // import Linkify from 'react-linkify';
 
-import { IPost } from "../posts.type";
+import { Avatar } from "../../../shared-components/avatar/Avatar";
+import { UserInfo } from "../../../shared-components/user-info/UserInfo";
+import { IPost, IReaction } from "../posts.type";
 import styles from './Post.module.css';
+import { selectCurrentUser } from '../../user-details/usersSlice';
+import { likePost, unlikePost } from "../postsSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { showNotification } from "../../meta-info/metaInfoSlice";
 
 export function Post({ _id, author, content, images, comments, reactions }: IPost) {
     const [allContentVisible, setAllContentVisible] = useState(false);
+    const [userReacted, setUserReacted] = useState(false);
+    const currentUser = useAppSelector(selectCurrentUser);
+    const dispatch = useAppDispatch();
+
 
     const toggleAllContentVisible = () => {
         setAllContentVisible( visible => !visible );
     }
+
+    useEffect( () => {
+         setUserReacted(!!reactions.find( (reaction: IReaction) => reaction.reactedBy === currentUser._id ));
+    }, [] );
+
+    const onUserReaction = async () => {
+        let resultAction;
+        try {
+            if(!userReacted)
+                resultAction = await dispatch(likePost(_id));
+            else       
+                resultAction = await dispatch(unlikePost(_id));
+            unwrapResult(resultAction);
+            setUserReacted(isReacted => !isReacted);
+        } catch(err) {
+            console.log(err);
+            dispatch(showNotification({ type: "ERROR", message: "Something went wrong" }));
+        }
+    };
 
     return (
         <div className={styles.post}>
@@ -32,6 +61,9 @@ export function Post({ _id, author, content, images, comments, reactions }: IPos
                     }
                 {/* </Linkify> */}
             </p>
+            <div className={styles.userActions}>
+                <span className={ `${styles.likeBtn} ${ userReacted && styles.reacted }` } onClick = { onUserReaction } > <FaThumbsUp fill="inherit" /> Like</span>
+            </div>
             {/* <Reactions /> */}
         </div>
     )

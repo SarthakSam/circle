@@ -22,3 +22,13 @@
 .body {
     white-space: pre-line;
 }
+
+.likeBtn {
+    cursor: pointer;
+}
+
+.reacted {
+    color: var(--color-blue);
+    fill: var(--color-blue);
+    font-weight: 500;
+}

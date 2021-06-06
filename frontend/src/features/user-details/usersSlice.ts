@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { AnyAction, createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { getURL } from "../../api.config";
 import { ERROR, IDLE, LOADING, SUCCESS } from "../../app.constants";
@@ -13,6 +13,7 @@ export interface UsersState {
 const initialState: UsersState = {
     status: IDLE,
     currentUser: {
+        _id: '',
         firstname: '',
         lastname: '',
         email: '',
@@ -22,10 +23,24 @@ const initialState: UsersState = {
     }
 }
 
+export const getUserDetails = createAsyncThunk('users/getUserDetails', async () => {
+    const resp = await axios.get( getURL('getUserDetails'));
+    return resp.data.user;
+});
+
 export const saveUserDetails = createAsyncThunk('users/saveUserDetails', async ( updatedUserDetails: IUser ) => {
     const resp = await axios.put( getURL('saveUserDetails'), updatedUserDetails );
     return resp.data.user;
 } );
+
+export function isPendingUserAction(action: AnyAction) {
+    return action.type === getUserDetails.pending || action.type === saveUserDetails.pending;
+}
+
+export function isRejectedUserAction(action: AnyAction) {
+    return action.type === getUserDetails.rejected || action.type === saveUserDetails.rejected;
+}
+
 
 export const usersSlice = createSlice({
     name: 'users',
@@ -37,14 +52,18 @@ export const usersSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(saveUserDetails.pending, (state) => {
-                state.status = LOADING;
+            .addCase(getUserDetails.fulfilled, (state, action: PayloadAction<IUser>) => {
+                state.status = SUCCESS;
+                state.currentUser = action.payload;
             })
             .addCase(saveUserDetails.fulfilled, (state, action: PayloadAction<IUser>) => {
                 state.status = SUCCESS;
                 state.currentUser = { ...state.currentUser, ...action.payload }
             })
-            .addCase(saveUserDetails.rejected, (state) => {
+            .addMatcher(isPendingUserAction, (state) => {
+                state.status = LOADING;
+            })
+            .addMatcher(isRejectedUserAction, (state) => {
                 state.status = ERROR;
             })
     }
@@ -52,6 +71,6 @@ export const usersSlice = createSlice({
 
 export const { updateUserDetails } = usersSlice.actions;
 
-export const selectUsersState = (state: RootState) => state.users;
+export const selectCurrentUser = (state: RootState) => state.users.currentUser;
 
 export default usersSlice.reducer;

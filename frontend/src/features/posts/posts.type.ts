@@ -6,10 +6,18 @@ export type IPost = {
     content: string,
     images: [],
     comments: [],
-    reactions: {}
+    reactions: IReaction[]
 }
 
 export type IPostsResponse = {
     posts: IPost[];
     message: string;
+}
+
+export type IReactionTypes = 'LIKE';
+
+export type IReaction = {
+    _id?: string;
+    reactedBy: string;
+    type: IReactionTypes;
 }

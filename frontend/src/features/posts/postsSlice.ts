@@ -25,6 +25,16 @@ export const createPost = createAsyncThunk('posts/createPost', async (body: stri
     return resp.data.post;
 });
 
+export const likePost = createAsyncThunk('posts/likePost', async (postId: string) => {
+    const resp = await axios.post( getURL('like', {postId}) );
+    return {postId, reaction: resp.data.reaction};
+});
+
+export const unlikePost = createAsyncThunk('posts/unlikePost', async (postId: string) => {
+    const resp = await axios.post( getURL('unlike', {postId}) );
+    return {postId, reaction: resp.data.reaction};
+});
+
 export function isPendingPostAction(action: AnyAction) {
     return action.type === fetchPosts.pending || action.type === createPost.pending;
 }
@@ -45,24 +55,27 @@ export const postsSlice = createSlice({
             //     state.status = LOADING;
             // })
             .addCase(fetchPosts.fulfilled, (state, action: PayloadAction<IPost[]>) => {
-                // console.log(state);
                 state.data = action.payload;
                 state.status = SUCCESS;
             })
             // .addCase(fetchPosts.rejected, (state) => {
             //     state.status = ERROR;
             // })
-            // .addCase(createPost.pending, (state: typeof initialState) => {
-            //     state.status = LOADING;
-            // })
             .addCase(createPost.fulfilled, (state, action: PayloadAction<IPost>) => {
-                // console.log(state);
                 state.data.push(action.payload);
                 state.status = SUCCESS;
             })
-            // .addCase(createPost.rejected, (state) => {
-            //     state.status = ERROR;
-            // })
+            .addCase(likePost.fulfilled, (state, action) => {
+                state.status = SUCCESS;
+                const post = state.data.find( post => post._id === action.payload.postId );
+                post?.reactions.push(action.payload.reaction);
+            })
+            .addCase(unlikePost.fulfilled, (state, action) => {
+                state.status = SUCCESS;
+                const post = state.data.find( post => post._id === action.payload.postId );
+                if(post)
+                    post.reactions = post.reactions.filter( reaction => reaction._id !== action.payload.reaction._id );
+            })
             .addMatcher(isPendingPostAction, (state) => {
                 state.status = LOADING;
             })
