@@ -1,9 +1,17 @@
 const { Schema, model } = require('mongoose'),
+        Populate = require('../utils/populate');
 
 const CommentSchema = new Schema({
-    content: string,
-    author: { type: Schema.Types.ObjectId, ref: 'User' },
-});
+    content: { type: String, required: 'Comment cannot be blank' },
+    author: { type: Schema.Types.ObjectId, ref: 'user' },
+    comments: [{ type: Schema.Types.ObjectId, ref: 'comment' }]
+}, { timestamps: true });
+
+CommentSchema
+    .pre('findOne', Populate('author', 'firstname', 'lastname'))
+    .pre('find', Populate('author', 'firstname', 'lastname'))
+    .pre('findOne', Populate('comments'))
+    .pre('find', Populate('comments'));
 
 const Comment = model('comment', CommentSchema);
 

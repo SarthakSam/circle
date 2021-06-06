@@ -4,9 +4,9 @@ const PostSchema = new Schema({
     content: { type: String, required: true },
     author: { type: Schema.Types.ObjectId, ref: 'user', required: true },
     images: [{ type: String }],
-    comments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }],
+    comments: [{ type: Schema.Types.ObjectId, ref: 'comment', required: true }],
     reactions: [{ type: Schema.Types.ObjectId, ref: 'reaction' }]
-});
+}, { timestamps: true });
 
 const Post = model('post', PostSchema);
 

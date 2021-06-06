@@ -2,12 +2,13 @@ const express = require('express'),
       router  = express.Router(),
       Post    = require('../models/Post.model').Post,
       Reaction    = require('../models/Reaction.model').Reaction,
+      Comment    = require('../models/Comment.model').Comment,
       { parseUserId } = require('../utils/parse-functions');
 
 
 router.get('/', async ( req, res) => {
     try {
-        const posts = await Post.find({}).populate('author', 'firstname lastname profilePic' ).populate("reactions");
+        const posts = await Post.find({}).populate('author', 'firstname lastname profilePic' ).populate("reactions").populate('comments');
         res.status(200).json({ message: 'Success', posts });
     } catch(err) {
         console.log(err);
@@ -55,6 +56,40 @@ router.post('/:postId/unlike', async (req, res, next) => {
         next(error);
     }
 });
+
+router.post('/:postId/comments', async (req, res, next) => {
+    let post = req.post;
+    const content = req.body.commentBody;
+    const userId = parseUserId(req.user);
+    try {
+        const comment = await Comment.create({ content, author: userId });
+        post.comments.push(comment);
+        await post.save();
+        res.status(201).json({ message: 'Success', comment });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+
+router.post('/:postId/comments/:commentId/replies', async (req, res, next) => {
+    const content = req.body.commentBody;
+    const userId = parseUserId(req.user);
+    try {
+        let comment = await Comment.findById(req.params.commentId);
+        if(!comment) {
+            return res.status(500).json({error: "No such comment exists"});
+        }
+        const reply = await Comment.create({ content, author: userId });
+        comment.comments.push(reply);
+        await comment.save();
+        res.status(201).json({ message: 'success',reply });
+    } catch (error) {
+        console.log(error);
+        next(error);
+    }
+});
+
 
 router.param('postId', async (req, res, next, postId) => {
     try {

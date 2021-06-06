@@ -9,7 +9,7 @@ const UserSchema = new Schema({
         emailVerified: { type: Boolean, default: false },
         headline: String,
         friends: [ { type: Schema.Types.ObjectId, ref: 'User' } ]
-});
+}, { timestamps: true });
 
 const User = model('user', UserSchema);
 
