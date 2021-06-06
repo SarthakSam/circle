@@ -7,6 +7,7 @@ import Content from './components/content/Content';
 import { Feed } from './components/feed/Feed';
 import { Authentication } from './features/authentication/Authentication';
 import { Profile } from './features/user-details/Profile';
+import { Notifications } from './features/meta-info/notifications/Notifications';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
            <Route path="private" element={<Authentication/>} />
       </Routes>
       <Loader /> 
+      <Notifications />
     </div>
   );
 }
