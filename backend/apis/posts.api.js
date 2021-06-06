@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/:postId/like', async (req, res) => {
+router.post('/:postId/like', async (req, res, next) => {
     const post = req.post;
     try {
         const reaction = await Reaction.create({ reactedBy: parseUserId(req.user), type: 'LIKE' });
@@ -41,12 +41,13 @@ router.post('/:postId/like', async (req, res) => {
     }
 });
 
-router.post('/:postId/unlike', async (req, res) => {
-    const post = req.post;
+router.post('/:postId/unlike', async (req, res, next) => {
+    let post = req.post;
     const userId = parseUserId(req.user);
     try {
+        post = await post.execPopulate('reactions');
         const reaction = post.reactions.find(reaction => reaction.reactedBy.equals(userId));
-        post.reactions.filter( reaction => !reaction.reactedBy.equals(userId) );
+        post.reactions = post.reactions.filter( reaction => !reaction.reactedBy.equals(userId) );
         await post.save();
         res.status(201).json({ message: 'Success', reaction });
     } catch (error) {
