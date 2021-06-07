@@ -1,5 +1,5 @@
 .post {
-    border: 1.4px solid var(--app-color-light-grey);
+    border: 1.4px solid var(--color-grey);
     padding: 1em;
     border-radius: 1em;
     background-color: white;
@@ -12,6 +12,32 @@
     align-items: center;
 }
 
+.body {
+    white-space: pre-line;
+    /* line-height: 1rem; */
+}
+
+.reactionsInfo {
+    display: flex;
+    list-style: none;
+    font-size: 0.8rem;
+    border-bottom: 0.1px solid var(--color-grey);
+}
+
+.reactionsInfo > li {
+    margin: 0.5em 0.5em 0.5em 0;
+}
+
+.userActions {
+    display: flex;
+    list-style: none;
+}
+
+.userActions > li {
+    margin: 0.3em 0.5em;
+    cursor: pointer;
+}
+
 .meta {
     font-size: 0.85rem;
     padding: 0 0.5em;
@@ -19,9 +45,6 @@
     cursor: pointer;
 }
 
-.body {
-    white-space: pre-line;
-}
 
 .likeBtn {
     cursor: pointer;

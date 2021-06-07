@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FaThumbsUp } from 'react-icons/fa';
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
-// import Linkify from 'react-linkify';
+import Linkify from 'react-linkify';
 
 import { Avatar } from "../../../shared-components/avatar/Avatar";
 import { UserInfo } from "../../../shared-components/user-info/UserInfo";
@@ -62,7 +62,7 @@ export function Post({ _id, author, content, images, comments, reactions }: IPos
                 <UserInfo name={ author.firstname + " " + author.lastname }/>
             </div>
             <p className={ styles.body }>
-                {/* <Linkify> */}
+                <Linkify>
                     { allContentVisible? content : content.substring(0, 250) }
                     {
                         content.length > 250 && <span className={ styles.meta } onClick = { toggleAllContentVisible }>
@@ -72,13 +72,18 @@ export function Post({ _id, author, content, images, comments, reactions }: IPos
                     </span>
 
                     }
-                {/* </Linkify> */}
+                </Linkify>
             </p>
-            <div className={styles.userActions}>
-                <span className={ `${styles.likeBtn} ${ userReacted && styles.reacted }` } onClick = { onUserReaction } > <FaThumbsUp fill="inherit" /> Like</span>
-                <span className={ `${styles.likeBtn}` }onClick={ () => { setCommentBoxVisible(true) } } >Comment</span>
-            </div>
-                { reactions.length }Likes
+            <ul className={ styles.reactionsInfo }>
+               { reactions.length > 0 && <li> { reactions.length } likes </li> } 
+               { comments.length > 0 && <li> { comments.length } comments </li> }
+            </ul>
+            {/* ${styles.likeBtn} */}
+            <ul className={styles.userActions}>
+                <li className={ ` ${ userReacted && styles.reacted }` } onClick = { onUserReaction } > <FaThumbsUp fill="inherit" /> Like </li>
+                <li onClick={ () => { setCommentBoxVisible(true) } } > Comment </li>
+            </ul>
+                
                 { commentBoxVisible && <NewComment closeCommentBox={ setCommentBoxVisible } postComment = { postComment } /> }
                  <ul>
                      {
