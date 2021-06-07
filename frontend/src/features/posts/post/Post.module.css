@@ -14,6 +14,7 @@
 
 .body {
     white-space: pre-line;
+    margin: 0.5em;
     /* line-height: 1rem; */
 }
 
@@ -25,7 +26,8 @@
 }
 
 .reactionsInfo > li {
-    margin: 0.5em 0.5em 0.5em 0;
+    margin: 0.5em;
+    cursor: pointer;
 }
 
 .userActions {
@@ -34,8 +36,9 @@
 }
 
 .userActions > li {
-    margin: 0.3em 0.5em;
+    margin: 0.7em 0.5em;
     cursor: pointer;
+    font-weight: 600;
 }
 
 .meta {
@@ -54,4 +57,9 @@
     color: var(--color-blue);
     fill: var(--color-blue);
     font-weight: 500;
+}
+
+.comments {
+    list-style: none;
+    margin: 1em 0;
 }

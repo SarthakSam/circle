@@ -75,21 +75,24 @@ export function Post({ _id, author, content, images, comments, reactions }: IPos
                 </Linkify>
             </p>
             <ul className={ styles.reactionsInfo }>
-               { reactions.length > 0 && <li> { reactions.length } likes </li> } 
-               { comments.length > 0 && <li> { comments.length } comments </li> }
+               { reactions.length == 1 && <li> { reactions.length } like </li> } 
+               { reactions.length > 1 && <li> { reactions.length } likes </li> } 
+               { comments.length > 0 && <li onClick = { () => { setCommentBoxVisible(true) } } > { comments.length } comments </li> }
             </ul>
-            {/* ${styles.likeBtn} */}
             <ul className={styles.userActions}>
                 <li className={ ` ${ userReacted && styles.reacted }` } onClick = { onUserReaction } > <FaThumbsUp fill="inherit" /> Like </li>
                 <li onClick={ () => { setCommentBoxVisible(true) } } > Comment </li>
             </ul>
                 
-                { commentBoxVisible && <NewComment closeCommentBox={ setCommentBoxVisible } postComment = { postComment } /> }
-                 <ul>
+            { commentBoxVisible && <NewComment closeCommentBox={ setCommentBoxVisible } postComment = { postComment } /> }
+            {
+                commentBoxVisible && 
+                <ul className={styles.comments}>
                      {
-                         comments.map( comment => <li key = {comment._id}> <Comment {...comment} /> </li> )
+                         comments.map( comment => <li key = {comment._id}> <Comment {...comment} postId = { _id } /> </li> )
                      }
                  </ul>
+            }
             {/* <Reactions /> */}
         </div>
     )

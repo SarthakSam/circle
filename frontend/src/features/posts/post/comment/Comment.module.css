@@ -1,0 +1,23 @@
+.comment {
+    flex: 1;
+    margin: 0.3em 0;
+}
+
+.commentBody {
+    background: var(--app-background-color);
+    padding: 0.7em;
+    border-radius:  0 0.5em 0.5em 0.5em;
+}
+
+.replyBtn {
+    background: inherit;
+    border: none;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.repliesCount {
+    font-size: 0.8rem;
+    margin: 0 0.5em;
+    cursor: pointer;
+}

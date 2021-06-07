@@ -1,3 +1,10 @@
 :root {
-    --app-background-color: rgb(224 231 255 / 0.6);
+    --app-background-color: #f3f2ef;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: #585c63;
 }

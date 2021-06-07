@@ -73,7 +73,8 @@ router.post('/:postId/comments', async (req, res, next) => {
 });
 
 router.post('/:postId/comments/:commentId/replies', async (req, res, next) => {
-    const content = req.body.commentBody;
+    console.log(req.body)
+    const content = req.body.reply;
     const userId = parseUserId(req.user);
     try {
         let comment = await Comment.findById(req.params.commentId);

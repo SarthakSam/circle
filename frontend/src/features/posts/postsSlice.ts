@@ -42,6 +42,13 @@ export const commentOnPost = createAsyncThunk('posts/comment', async ({ postId, 
     return { postId, comment: resp.data.comment, author: state.users.currentUser };
 } );
 
+export const replyOnComment = createAsyncThunk('posts/reply', async ({ postId, commentId, reply }: { postId: string, commentId: string, reply: string }, options) => {
+    const resp = await axios.post(getURL('reply', { postId, commentId }), { reply } );
+    const state = options.getState() as RootState;
+    console.log(state);
+    return { postId, commentId, reply: resp.data.reply, author: state.users.currentUser };
+} );
+
 export function isPendingPostAction(action: AnyAction) {
     return action.type === fetchPosts.pending || action.type === createPost.pending;
 }
@@ -80,6 +87,11 @@ export const postsSlice = createSlice({
             .addCase(commentOnPost.fulfilled, (state, action) => {
                 const post = state.data.find( post => post._id === action.payload.postId );
                 post?.comments.push({ ...action.payload.comment, author: action.payload.author })
+            })
+            .addCase(replyOnComment.fulfilled, (state, action) => {
+                const post = state.data.find( post => post._id === action.payload.postId );
+                const comment = post?.comments.find( comment => comment._id === action.payload.commentId );
+                comment?.comments.push({ ...action.payload.reply, author: action.payload.author });
             })
             .addMatcher(isPendingPostAction, (state) => {
                 state.status = LOADING;

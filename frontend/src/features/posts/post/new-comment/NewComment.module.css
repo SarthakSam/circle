@@ -1,0 +1,18 @@
+.commentBox {
+    margin: 0 1em;
+    border-radius: 1em;
+    padding: 0.5em;
+    height: 3em;
+    border: 1px solid grey;
+    flex: 1;
+    outline: none;
+}
+
+.commentBox:focus {
+    border-color: black;
+}
+
+.formBtn {
+    float: right;
+    margin: 0 0.2em;
+}
