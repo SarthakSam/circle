@@ -75,9 +75,10 @@ export function Post({ _id, author, content, images, comments, reactions }: IPos
                 </Linkify>
             </p>
             <ul className={ styles.reactionsInfo }>
-               { reactions.length == 1 && <li> { reactions.length } like </li> } 
+               { reactions.length === 1 && <li> { reactions.length } like </li> } 
                { reactions.length > 1 && <li> { reactions.length } likes </li> } 
-               { comments.length > 0 && <li onClick = { () => { setCommentBoxVisible(true) } } > { comments.length } comments </li> }
+               { comments.length === 1 && <li onClick = { () => { setCommentBoxVisible(true) } } > { comments.length } comment </li> }
+               { comments.length > 1 && <li onClick = { () => { setCommentBoxVisible(true) } } > { comments.length } comments </li> }
             </ul>
             <ul className={styles.userActions}>
                 <li className={ ` ${ userReacted && styles.reacted }` } onClick = { onUserReaction } > <FaThumbsUp fill="inherit" /> Like </li>

@@ -39,14 +39,14 @@ export const commentOnPost = createAsyncThunk('posts/comment', async ({ postId, 
     const resp = await axios.post(getURL('comment', { postId }), { commentBody } );
     const state = options.getState() as RootState;
     console.log(state);
-    return { postId, comment: resp.data.comment, author: state.users.currentUser };
+    return { postId, comment: resp.data.comment, author: state.currentUser.data };
 } );
 
 export const replyOnComment = createAsyncThunk('posts/reply', async ({ postId, commentId, reply }: { postId: string, commentId: string, reply: string }, options) => {
     const resp = await axios.post(getURL('reply', { postId, commentId }), { reply } );
     const state = options.getState() as RootState;
     console.log(state);
-    return { postId, commentId, reply: resp.data.reply, author: state.users.currentUser };
+    return { postId, commentId, reply: resp.data.reply, author: state.currentUser.data };
 } );
 
 export function isPendingPostAction(action: AnyAction) {

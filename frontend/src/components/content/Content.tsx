@@ -27,7 +27,7 @@ export function Content() {
         if(isAuthTokenSet) {
             dispatch( getUserDetails() );
         }
-     }, [isAuthTokenSet] );
+     }, [isAuthTokenSet, dispatch] );
 
     return (
         <div className={ `row ${styles.content}` }>
@@ -39,7 +39,7 @@ export function Content() {
                         <Outlet />
                     </div>
                 }
-            </main>
+        </main>
         </div>
     )
 }

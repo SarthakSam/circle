@@ -5,10 +5,12 @@ import { Routes, Route } from 'react-router-dom';
 import { Home } from './components/home/Home';
 import Content from './components/content/Content';
 import { Feed } from './components/feed/Feed';
-import { Authentication } from './features/authentication/Authentication';
+// import { Authentication } from './features/authentication/Authentication';
 // import { Profile } from './features/user-details/Profile';
 import { Notifications } from './features/meta-info/notifications/Notifications';
 import { InitialInfo } from './features/user-details/initialInfo';
+import { NotFound } from './components/not-found/NotFound';
+import { Profile } from './features/user-details/profile/Profile';
 
 function App() {
   return (
@@ -20,9 +22,10 @@ function App() {
            <Route path="feed" element={<Feed />} />
            <Route path="newPost" element={<NewPost />} />
            <Route path="/initial-info" element={ <InitialInfo />} />
-           {/* <Route path="profile" element={<Profile />} /> */}
+           <Route path="profile" element={<Profile />} />
         </Route>
-           <Route path="private" element={<Authentication/>} />
+           {/* <Route path="private" element={<Authentication/>} /> */}
+        <Route path="*" element= { <NotFound /> } />
       </Routes>
       <Loader /> 
       <Notifications />
