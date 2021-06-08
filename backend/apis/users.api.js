@@ -21,11 +21,13 @@ router.get('/' , getUser, (req, res) => {
 //     }
 // });
 
-router.put('/', async (req, res) => {
+router.put('/', async (req, res, next) => {
     const updatedDetails = req.body;
+    console.log(updatedDetails);
     try {
         const updatedUser = await User.findByIdAndUpdate( parseUserId(req.user), updatedDetails, {new: true});
         if(updatedUser) {
+            console.log(updatedUser);
             return res.status(200).json({ message: 'Success', user: parseUserDetails(updatedUser) });
         }
         return res.status(500).json({ errorMessage: 'Unable to save user. Please try again' });
@@ -34,6 +36,35 @@ router.put('/', async (req, res) => {
         next(err);
     }
 });
+
+router.get('/:userId', async (req, res, next) => {
+    console.log(req.params.userId);
+    try {
+        const user = await User.findById(req.params.userId);
+        if(user) {
+            return res.status(200).json({ user: parseUserDetails(user), message: 'Success' });
+        }
+        res.status(500).json({ errorMessage: 'Unable to fetch user details' });
+    } catch(err) {
+        console.log(err);
+        next(err);
+    }
+});
+
+// router.param('userId', async (req, res, next, userId) => {
+//     try {
+//         const user = await User.findById(userId);
+//         if(post) {
+//             req.post = post;
+//             return next();
+//         }
+//         res.status(500).json({ errorMessage: 'Unable to fetch post' });
+//     } catch(err) {
+//         console.log(err);
+//         next(err);
+//     }
+// });
+
 
 async function getUser(req, res, next) {
     const userId = req.user.sub.split("|")[1];

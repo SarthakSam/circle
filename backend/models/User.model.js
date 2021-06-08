@@ -8,7 +8,8 @@ const UserSchema = new Schema({
         backgroundPic: { type: String},
         emailVerified: { type: Boolean, default: false },
         headline: String,
-        friends: [ { type: Schema.Types.ObjectId, ref: 'User' } ]
+        friends: [ { type: Schema.Types.ObjectId, ref: 'User' } ],
+        gender: String
 }, { timestamps: true });
 
 const User = model('user', UserSchema);

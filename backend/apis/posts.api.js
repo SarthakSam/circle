@@ -8,7 +8,7 @@ const express = require('express'),
 
 router.get('/', async ( req, res) => {
     try {
-        const posts = await Post.find({}).populate('author', 'firstname lastname profilePic' ).populate("reactions").populate('comments');
+        const posts = await Post.find({}).populate('author', 'firstname lastname profilePic headline' ).populate("reactions").populate('comments');
         res.status(200).json({ message: 'Success', posts });
     } catch(err) {
         console.log(err);
