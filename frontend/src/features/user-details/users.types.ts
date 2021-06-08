@@ -10,4 +10,5 @@ export interface IUser {
     backgroundPic?: string;
     headline?: string;
     emailVerified?: boolean;
+    gender?: string;
 }

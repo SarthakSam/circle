@@ -1,0 +1,9 @@
+.userInfoForm {
+    justify-content: space-around;
+}
+
+.userInfoForm label {
+    font-weight: 600;
+    margin: 1em 0;
+    margin-right: 0.5em
+}

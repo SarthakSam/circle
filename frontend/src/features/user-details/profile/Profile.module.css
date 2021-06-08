@@ -1,0 +1,54 @@
+img {
+    width: 100%;
+    height: 100%;
+}
+
+.imagesSection {
+    width: 100vw;
+    height: 50vh;
+    background: rgba(200, 200, 200, 0.8);
+    justify-content: space-around;
+}
+
+.imagesContainer {
+    height: 100%;
+    position: relative;
+    display: flex;
+    justify-content: space-around;
+}
+
+.profilePic {
+    position: absolute;
+    bottom: -1em;
+    border-radius: 50%;
+}
+
+.profilePic > img {
+    border-radius: 50%;
+    background-color: grey;
+}
+
+.editProfilePicButton {
+    font-size: 1.5rem;
+    bottom: 1em;
+    right: 0.5em;
+    background: grey;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 0.4em;
+    cursor: pointer;
+}
+
+.editCoverPicButton {
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    background: white;
+    font-size: 1rem;
+    font-weight: 600;
+    color: black;
+    cursor: pointer;
+    padding: 0.5em;
+    border-radius: 0.3em;
+}
