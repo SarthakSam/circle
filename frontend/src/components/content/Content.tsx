@@ -2,7 +2,7 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { useAppDispatch } from "../../app/hooks";
-import { getUserDetails } from "../../features/user-details/usersSlice";
+import { getCurrentUserDetails } from "../../features/user-details/usersSlice";
 import { setupAuthHeaderForServiceCalls } from "../../utils/setAuthorizationToken";
 import { Nav } from "../nav/Nav";
 
@@ -25,7 +25,7 @@ export function Content() {
 
     useEffect( () => { 
         if(isAuthTokenSet) {
-            dispatch( getUserDetails() );
+            dispatch( getCurrentUserDetails() );
         }
      }, [isAuthTokenSet, dispatch] );
 
@@ -35,9 +35,9 @@ export function Content() {
             <main className={ `row ${styles.main}` }>
                 {
                    isAuthTokenSet &&
-                    <div className="col-10">
+                    // <div className="col-10">
                         <Outlet />
-                    </div>
+                    // </div>
                 }
         </main>
         </div>

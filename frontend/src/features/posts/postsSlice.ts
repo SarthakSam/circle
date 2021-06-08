@@ -39,22 +39,22 @@ export const commentOnPost = createAsyncThunk('posts/comment', async ({ postId, 
     const resp = await axios.post(getURL('comment', { postId }), { commentBody } );
     const state = options.getState() as RootState;
     console.log(state);
-    return { postId, comment: resp.data.comment, author: state.currentUser.data };
+    return { postId, comment: resp.data.comment, author: state.users.currentUser };
 } );
 
 export const replyOnComment = createAsyncThunk('posts/reply', async ({ postId, commentId, reply }: { postId: string, commentId: string, reply: string }, options) => {
     const resp = await axios.post(getURL('reply', { postId, commentId }), { reply } );
     const state = options.getState() as RootState;
     console.log(state);
-    return { postId, commentId, reply: resp.data.reply, author: state.currentUser.data };
+    return { postId, commentId, reply: resp.data.reply, author: state.users.currentUser };
 } );
 
 export function isPendingPostAction(action: AnyAction) {
-    return action.type === fetchPosts.pending || action.type === createPost.pending;
+    return action.type === fetchPosts.pending || action.type === createPost.pending || action.type === likePost.pending || action.type === unlikePost.pending || action.type === commentOnPost.pending;
 }
 
 export function isRejectedPostAction(action: AnyAction) {
-    return action.type === fetchPosts.rejected || action.type === createPost.rejected;
+    return action.type === fetchPosts.rejected || action.type === createPost.rejected || action.type === likePost.rejected || action.type === unlikePost.rejected || action.type === commentOnPost.rejected;
 }
 
 export const postsSlice = createSlice({

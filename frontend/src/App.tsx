@@ -22,7 +22,7 @@ function App() {
            <Route path="feed" element={<Feed />} />
            <Route path="newPost" element={<NewPost />} />
            <Route path="/initial-info" element={ <InitialInfo />} />
-           <Route path="profile" element={<Profile />} />
+           <Route path="profile/:userId" element={<Profile />} />
         </Route>
            {/* <Route path="private" element={<Authentication/>} /> */}
         <Route path="*" element= { <NotFound /> } />

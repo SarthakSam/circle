@@ -5,11 +5,12 @@ const urlMapping = {
     'unlike': '/posts/:postId/unlike',
     'comment': '/posts/:postId/comments',
     'reply': '/posts/:postId/comments/:commentId/replies',
-    'getUserDetails': '/users',
-    'saveUserDetails': '/users'
+    'getCurrentUserDetails': '/users',
+    'saveUserDetails': '/users',
+    'getUserDetails': '/users/:userId'
 }
 
-type urlMappingTypes = 'fetchPosts' | 'createPost' | 'saveUserDetails' | 'getUserDetails' | 'like' | 'unlike' | 'comment' | 'reply';
+type urlMappingTypes = 'fetchPosts' | 'createPost' | 'saveUserDetails' | 'getCurrentUserDetails' | 'like' | 'unlike' | 'comment' | 'reply' | 'getUserDetails';
 
 export function getURL(urlMappingKey: urlMappingTypes, params: any = {}): string {
     return Object.keys(params).reduce( ( acc: string, cur: string ) => {

@@ -7,12 +7,13 @@ import { IUser } from "./users.types";
 
 export interface UsersState {
     status: 'IDLE' | 'LOADING' | 'SUCCESS' | 'ERROR';
-    data: IUser;
+    currentUser: IUser;
+    visitedUser: IUser | null;
 }
 
 const initialState: UsersState = {
     status: IDLE,
-    data: {
+    currentUser: {
         _id: '',
         firstname: '',
         lastname: '',
@@ -20,45 +21,61 @@ const initialState: UsersState = {
         friends: [],
         emailVerified: false,
         posts: []
-    }
+    },
+    visitedUser: null
 }
 
-export const getUserDetails = createAsyncThunk('currentUser/getUserDetails', async () => {
-    const resp = await axios.get( getURL('getUserDetails'));
+export const getCurrentUserDetails = createAsyncThunk('users/getCurrentUserDetails', async () => {
+    const resp = await axios.get( getURL('getCurrentUserDetails'));
     return resp.data.user;
 });
 
-export const saveUserDetails = createAsyncThunk('currentUser/saveUserDetails', async ( updatedUserDetails: IUser ) => {
+export const saveUserDetails = createAsyncThunk('users/saveUserDetails', async ( updatedUserDetails: IUser ) => {
     const resp = await axios.put( getURL('saveUserDetails'), updatedUserDetails );
     return resp.data.user;
 } );
 
+export const getUserDetails = createAsyncThunk( 'users/getUserDetails', async ( userId: string, options ) => {
+    const state = options.getState() as RootState;
+    if(state.users.currentUser._id === userId) {
+        return state.users.currentUser;
+    }
+    const response = await axios.get(getURL('getUserDetails', { userId }));
+    return response.data.user;
+});
+
 export function isPendingUserAction(action: AnyAction) {
-    return action.type === getUserDetails.pending || action.type === saveUserDetails.pending;
+    return action.type === getCurrentUserDetails.pending;
 }
 
 export function isRejectedUserAction(action: AnyAction) {
-    return action.type === getUserDetails.rejected || action.type === saveUserDetails.rejected;
+    return action.type === getCurrentUserDetails.rejected;
 }
 
 
 export const usersSlice = createSlice({
-    name: 'currentUser',
+    name: 'users',
     initialState,
     reducers: {
         updateUserDetails: (state, action) => {
-            state.data = { ...state.data, ...action.payload.updates };
+            state.currentUser = { ...state.currentUser, ...action.payload.updates };
+        },
+        setVisitedUser: (state, action) => {
+            state.visitedUser = action.payload.user;
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(getUserDetails.fulfilled, (state, action: PayloadAction<IUser>) => {
+            .addCase(getCurrentUserDetails.fulfilled, (state, action: PayloadAction<IUser>) => {
                 state.status = SUCCESS;
-                state.data = action.payload;
+                state.currentUser = action.payload;
             })
             .addCase(saveUserDetails.fulfilled, (state, action: PayloadAction<IUser>) => {
-                state.status = SUCCESS;
-                state.data = { ...state.data, ...action.payload }
+                // state.status = SUCCESS;
+                state.currentUser = { ...state.currentUser, ...action.payload }
+            })
+            .addCase(getUserDetails.fulfilled, (state, action: PayloadAction<IUser>) => {
+                state.visitedUser = action.payload;
             })
             .addMatcher(isPendingUserAction, (state) => {
                 state.status = LOADING;
@@ -69,8 +86,10 @@ export const usersSlice = createSlice({
     }
 });
 
-export const { updateUserDetails } = usersSlice.actions;
+export const { updateUserDetails, setVisitedUser } = usersSlice.actions;
 
-export const selectCurrentUser = (state: RootState) => state.currentUser.data;
+export const selectCurrentUser = (state: RootState) => state.users.currentUser;
+
+export const selectVisitedUser = (state: RootState) => state.users.visitedUser;
 
 export default usersSlice.reducer;

@@ -1,0 +1,14 @@
+.selectImageButton {
+    background: var(--color-dark-blue);
+    color: var(--color-blue);
+    /* padding: 0.5em 2em; */
+    text-align: center;
+    font-weight: 700;
+    border-radius: 0.5em;
+    cursor: pointer;
+}
+
+.uploadButton {
+    margin-left: auto;
+}
+

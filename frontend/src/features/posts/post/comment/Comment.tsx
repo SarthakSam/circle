@@ -34,7 +34,7 @@ export function Comment({ _id, content, comments: replies, author, postId }: ICo
             <Avatar size={40} />
             <div className={ styles.comment }>
                 <div className={ styles.commentBody }>
-                    <UserInfo name={ author.firstname + " " + author.lastname }/>
+                    <UserInfo name={ author.firstname + " " + author.lastname } userId={ author._id! } />
                     <p>{ content }</p>
                 </div>
                 <button className={ styles.replyBtn } onClick = { onReplyClick } >Reply</button>
@@ -46,7 +46,7 @@ export function Comment({ _id, content, comments: replies, author, postId }: ICo
                                     <Avatar size={35} />
                                     <div className={ styles.comment }>
                                         <div className={ styles.commentBody }>
-                                            <UserInfo name={ reply.author.firstname + " " + reply.author.lastname }/>
+                                            <UserInfo name={ reply.author.firstname + " " + reply.author.lastname } userId={ reply.author._id! } />
                                             <p>{ reply.content }</p>
                                         </div>
                                         <button className={ styles.replyBtn } onClick = { onReplyClick }>Reply</button>

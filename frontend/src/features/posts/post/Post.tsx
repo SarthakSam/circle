@@ -59,7 +59,7 @@ export function Post({ _id, author, content, images, comments, reactions }: IPos
         <div className={styles.post}>
              <div className={styles.userInfo}>
                 <Avatar size={50} />
-                <UserInfo name={ author.firstname + " " + author.lastname }/>
+                <UserInfo name={ author.firstname + " " + author.lastname } userId={ _id }/>
             </div>
             <p className={ styles.body }>
                 <Linkify>

@@ -9,7 +9,7 @@ export const store = configureStore({
     counter: counterReducer,
     posts: postsReducer,
     metaInfo: metaInfoReducer,
-    currentUser: usersReducer
+    users: usersReducer
   },
 });
 
