@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { ImageUpload } from "../../../shared-components/image-upload/ImageUpload";
 import { imageUploader } from "../../../utils/imageUploader";
 import { showNotification } from "../../meta-info/metaInfoSlice";
-import { getUserDetails, saveUserDetails, selectCurrentUser, selectVisitedUser } from "../usersSlice";
+import { getUserDetails, saveUserDetails, selectCurrentUser, selectVisitedUser, setVisitedUser } from "../usersSlice";
 import styles from './Profile.module.css';
 import { UserInfoForm } from "./user-info-form/UserInfoForm";
 
@@ -20,16 +20,19 @@ export function Profile() {
     
     useEffect( () => {
         dispatch(getUserDetails(userId));
+        return () => {
+            dispatch( setVisitedUser({ user: null}) );
+        }
     }, [userId] );
 
     const uploadImages = async (pictures: File[]) => {
         const key = imageUploadFor === 'profile'? "profilePic" : "backgroundPic";
         try {
             const response = await Promise.all( imageUploader(pictures) );
-            console.log(response);
             const result = await dispatch( saveUserDetails( { [key]: response[0].data.image } ) );
             unwrapResult(result);
-            showNotification({ type: 'SUCCESS', message: 'Image uploaded successfully' });
+            setImageUploadFor("none");
+            dispatch( showNotification({ type: 'SUCCESS', message: 'Image uploaded successfully' }) );
         } catch(err) {
             dispatch( showNotification({ type: 'ERROR', message: 'Image upload failed' }) );
         }
@@ -58,7 +61,7 @@ export function Profile() {
                         }
                     </div>
                 </section>
-                <UserInfoForm user={user} currentUser = {user} />
+                <UserInfoForm user={user} currentUser = {currentUser} />
             </div>
         }
         { imageUploadFor !== 'none' && <ImageUpload closePopup={ () => { setImageUploadFor("none") } } uploadImages = { uploadImages } singleImage={ true }/> }
