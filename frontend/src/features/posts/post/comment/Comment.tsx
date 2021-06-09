@@ -31,7 +31,7 @@ export function Comment({ _id, content, comments: replies, author, postId }: ICo
     
     return (
         <div className="row" style={{ margin: '0.5em 0' }}>
-            <Avatar size={40} />
+            <Avatar size={40} src = { author.profilePic?.url } />
             <div className={ styles.comment }>
                 <div className={ styles.commentBody }>
                     <UserInfo name={ author.firstname + " " + author.lastname } userId={ author._id! } headline={ author.headline } />
@@ -43,7 +43,7 @@ export function Comment({ _id, content, comments: replies, author, postId }: ICo
                 {
                     replies.map( reply => <li key={reply._id} > 
                                 <div className="row" style={{ margin: '0.5em 0' }}>
-                                    <Avatar size={35} />
+                                    <Avatar size={35} src = { reply.author.profilePic?.url } />
                                     <div className={ styles.comment }>
                                         <div className={ styles.commentBody }>
                                             <UserInfo name={ reply.author.firstname + " " + reply.author.lastname } userId={ reply.author._id! } headline={ reply.author.headline } />

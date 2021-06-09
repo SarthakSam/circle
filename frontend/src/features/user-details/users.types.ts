@@ -1,3 +1,4 @@
+import { IImage } from "../../app.types";
 import { IPost } from "../posts/posts.type";
 export interface IUser {
     _id?: string;
@@ -6,8 +7,8 @@ export interface IUser {
     email?: string;
     posts?: IPost[];
     friends?: IUser[];
-    profilePic?: string;
-    backgroundPic?: string;
+    profilePic?: IImage;
+    backgroundPic?: IImage;
     headline?: string;
     emailVerified?: boolean;
     gender?: string;

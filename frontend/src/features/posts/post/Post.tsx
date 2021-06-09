@@ -58,7 +58,7 @@ export function Post({ _id, author, content, images, comments, reactions }: IPos
     return (
         <div className={styles.post}>
              <div className={styles.userInfo}>
-                <Avatar size={50} />
+                <Avatar size={50} src = { author.profilePic?.url }/>
                 <UserInfo name={ author.firstname + " " + author.lastname } userId={ author._id! } headline={ author.headline } />
             </div>
             <p className={ styles.body }>
