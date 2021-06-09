@@ -4,6 +4,7 @@ const express = require('express'),
       dotenv = require('dotenv'),
       postsRouter = require('./apis/posts.api'),
       usersRouter = require('./apis/users.api'),
+      uploadsRouter = require('./apis/uploads.api'),
       isUserAuthenticated = require('./middlewares/isJwtValid');
 
 const PORT = process.env.PORT || 3001;
@@ -18,12 +19,14 @@ mongoose.connect(dbURL, {useNewUrlParser: true, useUnifiedTopology: true})
 .catch( err => console.log(err) );
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true })); 
 
 app.use(isUserAuthenticated);
 // app.use(fetchUserDetails);
 
 app.use('/posts', postsRouter);
 app.use('/users', usersRouter);
+app.use('/uploads', uploadsRouter);
 
 app.get('/', (req, res) => {
     res.send('Social App');
