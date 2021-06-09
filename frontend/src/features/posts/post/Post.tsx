@@ -27,7 +27,7 @@ export function Post({ _id, author, content, images, comments, reactions }: IPos
 
     useEffect( () => {
          setUserReacted(!!reactions.find( (reaction: IReaction) => reaction.reactedBy === currentUser._id ));
-    }, [] );
+    }, [currentUser._id] );
 
     const onUserReaction = async () => {
         let resultAction;

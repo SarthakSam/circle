@@ -23,7 +23,7 @@ export function Profile() {
         return () => {
             dispatch( setVisitedUser({ user: null}) );
         }
-    }, [userId] );
+    }, [userId, dispatch] );
 
     const uploadImages = async (pictures: File[]) => {
         const key = imageUploadFor === 'profile'? "profilePic" : "backgroundPic";

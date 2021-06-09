@@ -1,4 +1,4 @@
-import { current, unwrapResult } from '@reduxjs/toolkit';
+import { unwrapResult } from '@reduxjs/toolkit';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../../../app/hooks';
 import { showNotification } from '../../../meta-info/metaInfoSlice';
