@@ -5,6 +5,7 @@ const express = require('express'),
       postsRouter = require('./apis/posts.api'),
       usersRouter = require('./apis/users.api'),
       uploadsRouter = require('./apis/uploads.api'),
+      friendsRouter = require('./apis/friends.api'),
       isUserAuthenticated = require('./middlewares/isJwtValid');
 
 const PORT = process.env.PORT || 3001;
@@ -25,6 +26,7 @@ app.use(isUserAuthenticated);
 // app.use(fetchUserDetails);
 
 app.use('/posts', postsRouter);
+app.use('/users', friendsRouter);
 app.use('/users', usersRouter);
 app.use('/uploads', uploadsRouter);
 

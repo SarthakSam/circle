@@ -8,7 +8,6 @@ const UserSchema = new Schema({
         backgroundPic: { type: Object},
         emailVerified: { type: Boolean, default: false },
         headline: String,
-        friends: [ { type: Schema.Types.ObjectId, ref: 'User' } ],
         gender: String
 }, { timestamps: true });
 

@@ -11,7 +11,6 @@ function parseUserDetails(user) {
         profilePic: user.profilePic,
         backgroundPic: user.backgroundPic,
         emailVerified: user.emailVerified,
-        friends: user.friends,
         headline: user.headline,
         gender: user.gender
     }
