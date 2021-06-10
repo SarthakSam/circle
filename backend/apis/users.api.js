@@ -7,6 +7,19 @@ router.get('/' , getUser, (req, res) => {
     res.status(200).json({ message: 'Success', user: parseUserDetails(req.userDetails) });
 });
 
+router.get('/search', async (req, res, next) => {
+    const query = req.query.searchQuery;
+    const regex = new RegExp(query, "gi");
+    try {
+         const users = await User.find( {$or:[{ "firstname" : {$regex: regex} },{ "lastname" : {$regex: regex} }]} ).select({ firstname: 1, lastname: 1, profilePic: 1 }).exec();
+        // console.log(users);
+        res.status(200).json({ message: "Success", users });
+    } catch(err) {
+        console.log(err);
+        next(err);
+    }
+});
+
 // router.post('/users', async (req, res, next) => {
 //     const user = req.body;
 //     try {

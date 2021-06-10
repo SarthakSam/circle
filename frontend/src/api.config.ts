@@ -7,10 +7,11 @@ const urlMapping = {
     'reply': '/posts/:postId/comments/:commentId/replies',
     'getCurrentUserDetails': '/users',
     'saveUserDetails': '/users',
-    'getUserDetails': '/users/:userId'
+    'getUserDetails': '/users/:userId',
+    'searchUsers': '/users/search?searchQuery=:query'
 }
 
-type urlMappingTypes = 'fetchPosts' | 'createPost' | 'saveUserDetails' | 'getCurrentUserDetails' | 'like' | 'unlike' | 'comment' | 'reply' | 'getUserDetails';
+type urlMappingTypes = 'fetchPosts' | 'createPost' | 'saveUserDetails' | 'getCurrentUserDetails' | 'like' | 'unlike' | 'comment' | 'reply' | 'getUserDetails' | 'searchUsers';
 
 export function getURL(urlMappingKey: urlMappingTypes, params: any = {}): string {
     return Object.keys(params).reduce( ( acc: string, cur: string ) => {
