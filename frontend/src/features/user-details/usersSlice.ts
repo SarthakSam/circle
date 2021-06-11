@@ -3,12 +3,13 @@ import axios from "axios";
 import { getURL } from "../../api.config";
 import { ERROR, IDLE, LOADING, SUCCESS } from "../../app.constants";
 import { RootState } from "../../app/store";
-import { IUser } from "./users.types";
+import { IFriendshipStatus, IUser } from "./users.types";
 
 export interface UsersState {
     status: 'IDLE' | 'LOADING' | 'SUCCESS' | 'ERROR';
     currentUser: IUser;
     visitedUser: IUser | null;
+    friendshipStatus: IFriendshipStatus;
 }
 
 const initialState: UsersState = {
@@ -22,7 +23,8 @@ const initialState: UsersState = {
         emailVerified: false,
         posts: []
     },
-    visitedUser: null
+    visitedUser: null,
+    friendshipStatus: "SAME_USER"
 }
 
 export const getCurrentUserDetails = createAsyncThunk('users/getCurrentUserDetails', async () => {
@@ -44,6 +46,25 @@ export const getUserDetails = createAsyncThunk( 'users/getUserDetails', async ( 
     return response.data.user;
 });
 
+export const getFriendshipStatus = createAsyncThunk('users/getFriendshipStatus', async (userId: string, options) => {
+    const state = options.getState() as RootState;
+    if(state.users.currentUser._id === userId) {
+        return 'SAME_USER';
+    }
+    const response = await axios.get(getURL('getFriendshipStatus', { user1: state.users.currentUser._id, user2: userId }));
+    return response.data.status;
+});
+
+export const addFriend = createAsyncThunk('users/addFriend', async ({ user1, user2 }: { user1: string, user2: string }) => {
+    const response = await axios.post(getURL('addFriend', { user1 }), { whom: user2 } );
+    return response.data.status;
+});
+
+export const removeFriend = createAsyncThunk('users/removeFriend', async ({ user1, user2 }: { user1: string, user2: string }) => {
+    const response = await axios.delete(getURL('removeFriend', { user1, user2 }));
+    return response.data.status;
+});
+
 export function isPendingUserAction(action: AnyAction) {
     return action.type === getCurrentUserDetails.pending;
 }
@@ -62,6 +83,9 @@ export const usersSlice = createSlice({
         },
         setVisitedUser: (state, action) => {
             state.visitedUser = action.payload.user;
+        },
+        setFriendShipStatus: (state, action) => {
+            state.friendshipStatus = action.payload.status;
         }
     },
     extraReducers: (builder) => {
@@ -77,6 +101,15 @@ export const usersSlice = createSlice({
             .addCase(getUserDetails.fulfilled, (state, action: PayloadAction<IUser>) => {
                 state.visitedUser = action.payload;
             })
+            .addCase(getFriendshipStatus.fulfilled, (state, action: PayloadAction<typeof state.friendshipStatus>) => {
+                state.friendshipStatus = action.payload
+            })
+            .addCase(addFriend.fulfilled, (state, action: PayloadAction<typeof state.friendshipStatus>) => {
+                state.friendshipStatus = action.payload
+            })
+            .addCase(removeFriend.fulfilled, (state, action: PayloadAction<typeof state.friendshipStatus>) => {
+                state.friendshipStatus = action.payload
+            })
             .addMatcher(isPendingUserAction, (state) => {
                 state.status = LOADING;
             })
@@ -86,10 +119,12 @@ export const usersSlice = createSlice({
     }
 });
 
-export const { updateUserDetails, setVisitedUser } = usersSlice.actions;
+export const { updateUserDetails, setVisitedUser, setFriendShipStatus } = usersSlice.actions;
 
 export const selectCurrentUser = (state: RootState) => state.users.currentUser;
 
 export const selectVisitedUser = (state: RootState) => state.users.visitedUser;
+
+export const selectFriendShipStatus = (state: RootState) => state.users.friendshipStatus;
 
 export default usersSlice.reducer;

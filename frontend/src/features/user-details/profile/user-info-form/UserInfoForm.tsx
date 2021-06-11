@@ -2,12 +2,12 @@ import { unwrapResult } from '@reduxjs/toolkit';
 import { ChangeEvent, FormEvent, useState } from 'react';
 import { useAppDispatch } from '../../../../app/hooks';
 import { showNotification } from '../../../meta-info/metaInfoSlice';
-import { IUser } from '../../users.types';
-import { saveUserDetails } from '../../usersSlice';
+import { IFriendshipStatus, IUser } from '../../users.types';
+import { addFriend, saveUserDetails, removeFriend } from '../../usersSlice';
 import styles from './UserInfoForm.module.css';
 
 
-export function UserInfoForm( { user, currentUser }: {user: IUser, currentUser: IUser} ) {
+export function UserInfoForm( { user, currentUser, friendshipStatus }: {user: IUser, currentUser: IUser, friendshipStatus: IFriendshipStatus} ) {
     const [userInfo, setUserInfo] = useState(user);
     const dispatch = useAppDispatch();
     
@@ -26,9 +26,56 @@ export function UserInfoForm( { user, currentUser }: {user: IUser, currentUser: 
         }
     }
 
+    const sendOrAcceptFriendRequest = async () => {
+        const message = friendshipStatus === 'NOT_FRIENDS'? 'Friend request sent' : 'Friend request accepted successfully';
+        try {
+            const resultAction = await dispatch(addFriend({ user1: currentUser._id!, user2: user._id! }));
+            unwrapResult(resultAction);
+            dispatch(showNotification({ type: 'SUCCESS', message }));
+        } catch(err) {
+            dispatch( showNotification({ type: 'ERROR', message: 'Unable to make changes' }) );
+        }
+    }
+
+    const cancelOrDeclineRequest = async () => {
+        const message = friendshipStatus === 'FRIENDS'? 'Unfriended user' : 'Friend request declined successfully';
+        try {
+            const resultAction = await dispatch(removeFriend({ user1: currentUser._id!, user2: user._id! }));
+            unwrapResult(resultAction);
+            dispatch(showNotification({ type: 'SUCCESS', message }));
+        } catch(err) {
+            dispatch( showNotification({ type: 'ERROR', message: 'Unable to make changes' }) );
+        }
+    }
+
     return (
         <form className={ `row ${styles.userInfoForm}` } onSubmit = { saveChanges } >           
-                <h2 className="col-9"> User Details </h2>
+                <div className="col-9" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <h2> User Details </h2>
+                    <div>
+                        {
+                            friendshipStatus === 'NOT_FRIENDS' &&
+                            <button type="button" className="btn btn--primary" onClick = { sendOrAcceptFriendRequest } >Add as Friend</button>
+                        }
+                        {
+                            friendshipStatus === 'REQUESTED' &&
+                            <button type="button" className="btn btn--primary" onClick = { cancelOrDeclineRequest } >Cancel Request</button>
+                        }
+                        {
+                            friendshipStatus === 'ACTION_REQUIRED' &&
+                            <>
+                                <button type="button" className="btn btn--primary" onClick = { sendOrAcceptFriendRequest } >Accept Request</button>
+                                <button type="button" className="btn btn--primary" onClick = { cancelOrDeclineRequest } >Decline Request</button>
+                            </>
+                        }
+                        {
+                            friendshipStatus === 'FRIENDS' &&
+                            <>
+                                <button type="button" className="btn btn--primary" onClick = { cancelOrDeclineRequest } >Unfriend</button>
+                            </>
+                        }
+                    </div>
+                </div>
                 <div className = "col-9">
                     <label htmlFor="firstname">First Name</label>
                     <div className={ `input input--fluid ${ userInfo._id !== currentUser._id? styles.uneditable : '' }`}>
@@ -74,9 +121,12 @@ export function UserInfoForm( { user, currentUser }: {user: IUser, currentUser: 
                         </div>
                     }
                 </div>
-                <div className="col-9">
-                     <button className="btn btn--primary">Save Changes</button>
-                </div>
+                {
+                     userInfo._id === currentUser._id && 
+                    <div className="col-9">
+                        <button className="btn btn--primary">Save Changes</button>
+                    </div>
+                }
         </form>
     )
 }

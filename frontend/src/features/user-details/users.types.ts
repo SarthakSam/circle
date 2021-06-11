@@ -13,3 +13,5 @@ export interface IUser {
     emailVerified?: boolean;
     gender?: string;
 }
+
+export type IFriendshipStatus = 'NOT_FRIENDS' | 'SAME_USER' | 'FRIENDS' | 'REQUESTED' | 'ACTION_REQUIRED';

@@ -16,24 +16,24 @@ router.get('/:user1/friends', async (req, res, next) => {
 
 router.post('/:user1/friends', async (req, res) => {
     const user1 = req.params.user1;
-    const user2 = req.body.to;
+    const user2 = req.body.whom;
     // user1 sends friend request to user2
     // user2 confirms friendship
     try {
         const friends = await Friend.findOne({ user1: user1, user2: user2 }) || await Friend.findOne({ user1: user2, user2: user1 });
         if(friends == null) {
                 const friends = await Friend.create({ user1, user2, status: "REQUESTED" });
-                res.status(201).json({ mesage: "Friend request sent" });
+                res.status(201).json({ mesage: "Friend request sent", status: "REQUESTED" });
         } else {
             if(friends.status === 'REQUESTED') {
                 friends.status = "FRIENDS";
-            } else if( friends.status === 'DECLINED' ) {
-                friends.status = "REQUESTED";
+                await friends.save();
+                return res.status(200).json({ message: 'Success', status: "FRIENDS" });
+            // } else if( friends.status === 'DECLINED' ) {
+            //     friends.status = "REQUESTED";
             } else {
-                return res.status(200).json({ message: 'You are already friends' });
+                return res.status(200).json({ message: 'You are already friends', status: "FRIENDS" });
             }
-            await friends.save();
-            return res.status(200).json({ message: 'Success', friends });
         }
     } catch (err) {
         console.log(err);
@@ -47,14 +47,16 @@ router.get('/:user1/friends/:user2', async (req, res ) => {
 
     // get status of friendship
     try {
-        const friends = await Friend.findOne({ user1: user1, user2: user2 }) || await Friend.findOne({ user1: user2, user2: user1 });
-        if(friends) {
-            res.status(200).json({ message: 'Success', friends });
+        let friend = await Friend.findOne({ user1: user1, user2: user2 });
+        if(friend) {
+            return res.status(200).json({ message: 'Success', status: friend.status });
         }
-        else {
-            res.status(200).json({ message: 'Success', friends: null });
+        friend = await Friend.findOne({ user1: user2, user2: user1 });
+        if(friend) {
+            return res.status(200).json({ message: 'Success', status: friend.status === "REQUESTED"? "ACTION_REQUIRED" : friend.status });
         }
-    } catch (error) {
+        return res.status(200).json({ message: 'Success', status: "NOT_FRIENDS" });
+    } catch (err) {
         console.log(err);
         next(err);
     }
@@ -91,11 +93,10 @@ router.delete('/:user1/friends/:user2', async (req, res) => {
         console.log(friends);
         if(friends) {
            await friends.delete();
-           res.status(200).json({ message: 'Success', friends });
+           res.status(200).json({ message: 'Success', status: 'NOT_FRIENDS' });
         } else {
            res.status(500).json({ errorMesage: "Unable to process request" });
         }
-
     } catch (error) {
         console.log(err);
         next(err);
