@@ -6,7 +6,7 @@ router.get('/:user1/friends', async (req, res, next) => {
     const user1 = req.params.user1;
     // returns friends of user1
     try {
-        const friends = await Friend.find({ user1: user1, status: "FRIENDS" });
+        const friends = await Friend.find({  $and: [{ $or: [{user1: user1}, {user2: user1}] }, {status: "FRIENDS"} ] }).select({ firstname: 1, lastname: 1, profilePic: 1 });
         res.status(200).json({ message: 'Success', friends });
     } catch (err) {
         console.log(err);
