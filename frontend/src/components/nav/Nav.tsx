@@ -15,12 +15,14 @@ export function Nav() {
 
     return (
         <nav className={ `row col-12 m-0 ${styles.nav}` }>
-            <span className={ styles.title }>
-               <Link to='/feed' >Connect</Link>
-            </span>
-            <Search />
+            {/* <ul className={ styles.navList }> */}
+                <span className={ styles.title }>
+                    <Link to='/feed' >Connect</Link>
+                </span>
+                <Search />
+            {/* </ul> */}
             <ul className={ styles.navList }>
-               <Link to='/feed' >Home</Link>
+               {/* <Link to='/feed' >Home</Link> */}
                <Link to={`/profile/${user._id}`} >Profile</Link>
                <button className="btn btn--inverted" onClick={ signout }>Logout</button>
             </ul>

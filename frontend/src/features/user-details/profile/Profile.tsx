@@ -47,7 +47,7 @@ export function Profile() {
             user &&  
             <div className="row">
                 <section className={ `row ${styles.imagesSection}` }>
-                    <div className={ `col-9 m-0 p-0 ${styles.imagesContainer}` }>
+                    <div className={ `col-9 m-0 p-0 ${styles.imagesContainer}` } style={{ backgroundImage: `url(${ user?.backgroundPic?.url || "/assets/background.png" })`}} >
                         <img  src={ user?.backgroundPic?.url || "/assets/background.png" } alt="" />
                         <div className={styles.profilePic}>
                             <img  src={ user?.profilePic?.url || "/assets/male-user.jpg" } alt=""/>

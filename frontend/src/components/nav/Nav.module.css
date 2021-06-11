@@ -8,6 +8,10 @@
     font-weight: 600;
 }
 
+.navList {
+    display: flex;
+}
+
 .navList > * {
     margin: 0 0.3em;
     border: none;

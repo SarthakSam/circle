@@ -10,6 +10,10 @@ export interface UsersState {
     currentUser: IUser;
     visitedUser: IUser | null;
     friendshipStatus: IFriendshipStatus;
+    suggestions: {
+        data: IUser[];
+        status: 'IDLE' | 'LOADING' | 'SUCCESS' | 'ERROR';
+    }
 }
 
 const initialState: UsersState = {
@@ -24,7 +28,11 @@ const initialState: UsersState = {
         posts: []
     },
     visitedUser: null,
-    friendshipStatus: "SAME_USER"
+    friendshipStatus: "SAME_USER",
+    suggestions: {
+        data: [],
+        status: 'IDLE'
+    }
 }
 
 export const getCurrentUserDetails = createAsyncThunk('users/getCurrentUserDetails', async () => {
@@ -63,6 +71,11 @@ export const addFriend = createAsyncThunk('users/addFriend', async ({ user1, use
 export const removeFriend = createAsyncThunk('users/removeFriend', async ({ user1, user2 }: { user1: string, user2: string }) => {
     const response = await axios.delete(getURL('removeFriend', { user1, user2 }));
     return response.data.status;
+});
+
+export const getFriendsSuggestions = createAsyncThunk('users/getFriendsSuggestions', async (user: string) => {
+    const resp = await axios.get( getURL( 'friendSuggestions', { user } ) );
+    return resp.data.suggestions;
 });
 
 export function isPendingUserAction(action: AnyAction) {
@@ -110,6 +123,16 @@ export const usersSlice = createSlice({
             .addCase(removeFriend.fulfilled, (state, action: PayloadAction<typeof state.friendshipStatus>) => {
                 state.friendshipStatus = action.payload
             })
+            .addCase(getFriendsSuggestions.pending, (state) => {
+                state.suggestions.status = 'LOADING';
+            })
+            .addCase(getFriendsSuggestions.fulfilled, (state, action: PayloadAction<IUser[]>) => {
+                state.suggestions.data = action.payload;
+                state.suggestions.status = 'SUCCESS';
+            })
+            .addCase(getFriendsSuggestions.rejected, (state) => {
+                state.suggestions.status = 'ERROR';
+            })
             .addMatcher(isPendingUserAction, (state) => {
                 state.status = LOADING;
             })
@@ -126,5 +149,7 @@ export const selectCurrentUser = (state: RootState) => state.users.currentUser;
 export const selectVisitedUser = (state: RootState) => state.users.visitedUser;
 
 export const selectFriendShipStatus = (state: RootState) => state.users.friendshipStatus;
+
+export const selectSuggestions = (state: RootState) => state.users.suggestions;
 
 export default usersSlice.reducer;

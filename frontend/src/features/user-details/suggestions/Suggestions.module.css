@@ -1,0 +1,23 @@
+
+
+.userInfo {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    /* margin-top: 0.5em; */
+    padding: 0.5em;
+}
+
+.userName {
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin: 0 0.2em;
+}
+
+.link {
+    font-size: 0.8rem;
+    color: var(--color-blue);
+    font-weight: 600;
+    margin-left: auto;
+}
