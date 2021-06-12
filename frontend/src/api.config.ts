@@ -19,8 +19,10 @@ const urlMapping = {
 
 type urlMappingTypes = 'fetchPosts' | 'createPost' | 'saveUserDetails' | 'getCurrentUserDetails' | 'like' | 'unlike' | 'comment' | 'reply' | 'getUserDetails' | 'searchUsers' | 'getFriendshipStatus' | 'addFriend' | 'removeFriend' | 'friendSuggestions' | 'getNotifications' | 'updateNotification';
 
+const baseURL = 'https://buddees.herokuapp.com';
+
 export function getURL(urlMappingKey: urlMappingTypes, params: any = {}): string {
-    return Object.keys(params).reduce( ( acc: string, cur: string ) => {
+    return baseURL + Object.keys(params).reduce( ( acc: string, cur: string ) => {
         return acc.replace(`:${cur}`, params[cur]);
     }, urlMapping[urlMappingKey]);
 }
