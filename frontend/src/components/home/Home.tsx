@@ -7,11 +7,11 @@ export function Home() {
     const { loginWithRedirect } = useAuth0();
 
     const signup = () => {
-        loginWithRedirect({ screen_hint: "signup",  redirectUri: 'http://localhost:3000/initial-info'  });
+        loginWithRedirect({ screen_hint: "signup",  redirectUri: 'https://buddees.netlify.app/initial-info'  });
     }
 
     const signin = () => {
-        loginWithRedirect({ redirectUri: 'http://localhost:3000/feed' });
+        loginWithRedirect({ redirectUri: 'https://buddees.netlify.app/feed' });
     }
 
     return (
