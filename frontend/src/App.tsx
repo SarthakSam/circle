@@ -8,7 +8,7 @@ import { Feed } from './components/feed/Feed';
 // import { Authentication } from './features/authentication/Authentication';
 // import { Profile } from './features/user-details/Profile';
 import { Notifications } from './features/meta-info/notifications/Notifications';
-import { InitialInfo } from './features/user-details/initialInfo';
+import { InitialInfo } from './features/user-details/inital-info/InitialInfo';
 import { NotFound } from './components/not-found/NotFound';
 import { Profile } from './features/user-details/profile/Profile';
 import { NotificationsPage } from './features/notifications/notifications-page/NotificationsPage';

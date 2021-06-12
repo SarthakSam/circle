@@ -1,0 +1,36 @@
+.formContainer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(100, 100, 100, 0.3);
+}
+
+.initialInfoForm {
+    height: 40vh;
+    min-height: 400px;
+    background: white;
+    /* margin: 3em 0; */
+    padding: 2em 1em;
+}
+
+.initialInfoForm > h1 {
+    margin: 1em 0.5em;
+}
+
+.formField {
+    margin: 1.5em 1em;
+}
+
+.formField > label {
+    font-size: 1.2rem;
+    margin: 0.5em 0;
+}
+
+.initialInfoForm > button {
+    float: right;
+    margin-right: 1em;
+}

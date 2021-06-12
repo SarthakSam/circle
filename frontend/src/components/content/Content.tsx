@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../app/hooks";
 import { getNotifications } from "../../features/notifications/notificationsSlice";
 import { getCurrentUserDetails } from "../../features/user-details/usersSlice";
 import { setupAuthHeaderForServiceCalls } from "../../utils/setAuthorizationToken";
+import { Authenticating } from "../authenticating/Authenticating";
 import { Nav } from "../nav/Nav";
 
 import styles from './Content.module.css';
@@ -53,5 +54,5 @@ export function Content() {
 }
 
 export default withAuthenticationRequired(Content, {
-    onRedirecting: () => <div>Loading...</div>,
+    onRedirecting: Authenticating,
   });
