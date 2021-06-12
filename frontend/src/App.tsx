@@ -11,6 +11,7 @@ import { Notifications } from './features/meta-info/notifications/Notifications'
 import { InitialInfo } from './features/user-details/initialInfo';
 import { NotFound } from './components/not-found/NotFound';
 import { Profile } from './features/user-details/profile/Profile';
+import { NotificationsPage } from './features/notifications/notifications/Notifications';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
            <Route path="newPost" element={<NewPost />} />
            <Route path="/initial-info" element={ <InitialInfo />} />
            <Route path="profile/:userId" element={<Profile />} />
+           <Route path="notifications" element={<NotificationsPage />} />
         </Route>
            {/* <Route path="private" element={<Authentication/>} /> */}
         <Route path="*" element= { <NotFound /> } />

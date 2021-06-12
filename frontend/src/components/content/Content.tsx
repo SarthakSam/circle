@@ -2,6 +2,7 @@ import { useAuth0, withAuthenticationRequired } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { useAppDispatch } from "../../app/hooks";
+import { getNotifications } from "../../features/notifications/notificationsSlice";
 import { getCurrentUserDetails } from "../../features/user-details/usersSlice";
 import { setupAuthHeaderForServiceCalls } from "../../utils/setAuthorizationToken";
 import { Nav } from "../nav/Nav";
@@ -28,6 +29,13 @@ export function Content() {
             dispatch( getCurrentUserDetails() );
         }
      }, [isAuthTokenSet, dispatch] );
+
+     
+    useEffect( () => {
+        if(isAuthTokenSet) {
+        dispatch( getNotifications() );
+        }
+    }, [isAuthTokenSet, dispatch] );
 
     return (
         <div className={ `row ${styles.content}` }>
