@@ -24,7 +24,7 @@ export function NewComment({ closeCommentBox, postComment }: { closeCommentBox: 
                 <Avatar size={35} />
                 <input className={ styles.commentBox } type="text" value={commentText} onChange = { (e: ChangeEvent<HTMLInputElement>) => { setCommentText(e.target.value) } } placeholder="Enter text" />
                 <div className="col-12 m-0 p-0">
-                    <button type="submit" className={ `btn btn--primary ${ styles.formBtn }` }  disabled={ commentText.length === 0 }>Comment</button>
+                    <button type="submit" className={ `btn btn--purple ${ styles.formBtn }` }  disabled={ commentText.length === 0 }>Comment</button>
                     <button type="button" className={ `btn btn--danger btn--inverted  ${ styles.formBtn }` } onClick = { () => { closeCommentBox(false) } } >Cancel</button>
                 </div>        
             </form>        

@@ -1,8 +1,8 @@
 const { Notification } = require('../models/Notification.model');
 
-module.exports =  async function ({ user, type, extraInfo }) {
+module.exports =  async function ({ notificationFor, type, extraInfo, notificationBy }) {
     try {
-        const notification = await Notification.create({ user, type, extraInfo});
+        const notification = await Notification.create({ notificationFor, type, extraInfo, notificationBy});
         console.log(notification);
     } catch(err) {
         console.log(err);

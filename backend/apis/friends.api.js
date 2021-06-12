@@ -24,13 +24,13 @@ router.post('/:user1/friends', async (req, res) => {
         const friends = await Friend.findOne({ user1: user1, user2: user2 }) || await Friend.findOne({ user1: user2, user2: user1 });
         if(friends == null) {
                 const friends = await Friend.create({ user1, user2, status: "REQUESTED" });
-                createNotification({ user: friends.user2, type: 'FRIEND_REQUESTED', extraInfo: { sentBy: friends.user1 } });
+                createNotification({ notificationFor: friends.user2, type: 'FRIEND_REQUESTED', notificationBy: friends.user1 });
                 res.status(201).json({ mesage: "Friend request sent", status: "REQUESTED" });
         } else {
             if(friends.status === 'REQUESTED') {
                 friends.status = "FRIENDS";
                 await friends.save();
-                createNotification({ user: friends.user1, type: 'FRIEND_REQUESTED', extraInfo: { acceptedBy: friends.user2 } });
+                createNotification({ notificationFor: friends.user1, type: 'FRIEND_REQUEST_ACCEPTED', notificationBy: friends.user2 });
                 return res.status(200).json({ message: 'Success', status: "FRIENDS" });
             // } else if( friends.status === 'DECLINED' ) {
             //     friends.status = "REQUESTED";

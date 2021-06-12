@@ -11,7 +11,7 @@ import { Notifications } from './features/meta-info/notifications/Notifications'
 import { InitialInfo } from './features/user-details/initialInfo';
 import { NotFound } from './components/not-found/NotFound';
 import { Profile } from './features/user-details/profile/Profile';
-import { NotificationsPage } from './features/notifications/notifications/Notifications';
+import { NotificationsPage } from './features/notifications/notifications-page/NotificationsPage';
 
 function App() {
   return (

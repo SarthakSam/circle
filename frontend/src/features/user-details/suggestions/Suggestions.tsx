@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { SUCCESS } from "../../../app.constants";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { Avatar } from "../../../shared-components/avatar/Avatar";
-import { UserInfo } from "../../../shared-components/user-info/UserInfo";
 import { getFriendsSuggestions, selectCurrentUser, selectSuggestions } from "../usersSlice";
 import styles from './Suggestions.module.css';
 
@@ -22,7 +21,7 @@ export function Suggestions() {
         if(suggestions.status !== SUCCESS && user?._id ) {
             dispatch(getFriendsSuggestions(user._id!));
         }
-    }, [user._id, suggestions]);
+    }, [user._id, suggestions, dispatch]);
 
     return (
         <>
