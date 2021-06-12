@@ -1,5 +1,7 @@
 :root {
     --app-background-color: #f3f2ef;
+    --app-primary-color: #f46a86;
+    --app-secondary-color: var(--color-purple);
 }
 
 * {

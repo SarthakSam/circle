@@ -14,18 +14,16 @@ export function Nav() {
     }
 
     return (
-        <nav className={ `row col-12 m-0 ${styles.nav}` }>
-            {/* <ul className={ styles.navList }> */}
+        <nav className= { `row col-8 col-xl-10 col-lg-11 col-md-12 m-0 ${styles.nav}` }>
                 <span className={ styles.title }>
                     <Link to='/feed' >Connect</Link>
                 </span>
                 <Search />
-            {/* </ul> */}
-            <ul className={ styles.navList }>
-               {/* <Link to='/feed' >Home</Link> */}
-               <Link to={`/profile/${user._id}`} >Profile</Link>
-               <button className="btn btn--inverted" onClick={ signout }>Logout</button>
-            </ul>
+                <ul className={ styles.navList }>
+                {/* <Link to='/feed' >Home</Link> */}
+                <Link to={`/profile/${user._id}`} >Profile</Link>
+                <button className="btn btn--inverted" onClick={ signout }>Logout</button>
+                </ul>
         </nav>
     )
 }

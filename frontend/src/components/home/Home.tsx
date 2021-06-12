@@ -22,11 +22,19 @@ export function Home() {
                     </span>
                     <ul>
                         <button className={`btn btn--inverted ${styles.navBtn}`} onClick={ signup } >Join Now</button>
-                        <button className={`btn btn--primary btn--inverted  ${styles.navBtn}`} onClick = { signin } >Sign in</button>
+                        <button className={`btn btn--purple btn--inverted  ${styles.navBtn}`} onClick = { signin } >Sign in</button>
                     </ul>
                 </nav>
                 <main className={ `row col-12 ${styles.main}` }>
-                    <img className={ styles.image } src="/assets/home-page.svg" alt="" />
+                    <div className="col-4" style={{ marginBottom: '5em' }}>
+                        <h1 className={ styles.headline }>
+                            Post, like, share, comment
+                        </h1>
+                        <p className="text--lead">
+                            Spread your love into social life wherever you are
+                        </p>
+                    </div>
+                    <img className={ `col-8 ${styles.image}` } src="/assets/landing.png" alt="" />
                 </main>
         </div>
     )

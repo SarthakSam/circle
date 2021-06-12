@@ -50,54 +50,54 @@ export function UserInfoForm( { user, currentUser, friendshipStatus }: {user: IU
 
     return (
         <form className={ `row ${styles.userInfoForm}` } onSubmit = { saveChanges } >           
-                <div className="col-9" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div className="col-8 col-lg-10 col-sm-12" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                     <h2> User Details </h2>
                     <div>
                         {
                             friendshipStatus === 'NOT_FRIENDS' &&
-                            <button type="button" className="btn btn--primary" onClick = { sendOrAcceptFriendRequest } >Add as Friend</button>
+                            <button type="button" className="btn btn--purple" onClick = { sendOrAcceptFriendRequest } >Add as Friend</button>
                         }
                         {
                             friendshipStatus === 'REQUESTED' &&
-                            <button type="button" className="btn btn--primary" onClick = { cancelOrDeclineRequest } >Cancel Request</button>
+                            <button type="button" className="btn btn--danger" onClick = { cancelOrDeclineRequest } >Cancel Request</button>
                         }
                         {
                             friendshipStatus === 'ACTION_REQUIRED' &&
                             <>
-                                <button type="button" className="btn btn--primary" onClick = { sendOrAcceptFriendRequest } >Accept Request</button>
-                                <button type="button" className="btn btn--primary" onClick = { cancelOrDeclineRequest } >Decline Request</button>
+                                <button type="button" className="btn btn--purple" onClick = { sendOrAcceptFriendRequest } >Accept Request</button>
+                                <button type="button" className="btn btn--danger" onClick = { cancelOrDeclineRequest } >Decline Request</button>
                             </>
                         }
                         {
                             friendshipStatus === 'FRIENDS' &&
                             <>
-                                <button type="button" className="btn btn--primary" onClick = { cancelOrDeclineRequest } >Unfriend</button>
+                                <button type="button" className="btn btn--danger" onClick = { cancelOrDeclineRequest } >Unfriend</button>
                             </>
                         }
                     </div>
                 </div>
-                <div className = "col-9">
+                <div className = "col-8 col-lg-10 col-sm-12">
                     <label htmlFor="firstname">First Name</label>
                     <div className={ `input input--fluid ${ userInfo._id !== currentUser._id? styles.uneditable : '' }`}>
                         <input type="text" name="firstname" disabled = { userInfo._id !== currentUser._id } id="firstname" value={ userInfo.firstname } onChange = { (e: ChangeEvent<HTMLInputElement>) => { onChange('firstname', e.target.value) } }/>
                     </div>
                 </div>
                 
-                <div className = "col-9">
+                <div className = "col-8 col-lg-10 col-sm-12">
                     <label htmlFor="lastname">Last Name</label>
                     <div className={ `input input--fluid ${ userInfo._id !== currentUser._id? styles.uneditable : '' }`}>
                         <input type="text" name="lastname" disabled = { userInfo._id !== currentUser._id } id="lastname" value={ userInfo.lastname } onChange = { (e: ChangeEvent<HTMLInputElement>) => { onChange('lastname', e.target.value) } } />
                     </div>
                 </div>
 
-                <div className = "col-9">
+                <div className = "col-8 col-lg-10 col-sm-12">
                     <label htmlFor="headline">Headline</label>
                     <div className={ `input input--fluid ${ userInfo._id !== currentUser._id? styles.uneditable : '' }`}>
                         <input type="text" name="headline" disabled = { userInfo._id !== currentUser._id } id="headline" value={ userInfo.headline || "Not added" } onChange = { (e: ChangeEvent<HTMLInputElement>) => { onChange('headline', e.target.value) } }/>
                     </div>
                 </div>
 
-                <div className = "col-9">
+                <div className = "col-8 col-lg-10 col-sm-12">
                     <label htmlFor="gender">Gender</label>
                     {
                         userInfo._id === currentUser._id?   
@@ -123,7 +123,7 @@ export function UserInfoForm( { user, currentUser, friendshipStatus }: {user: IU
                 </div>
                 {
                      userInfo._id === currentUser._id && 
-                    <div className="col-9">
+                    <div className="col-8 col-lg-10 col-sm-12">
                         <button className="btn btn--primary">Save Changes</button>
                     </div>
                 }

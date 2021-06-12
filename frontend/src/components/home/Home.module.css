@@ -15,10 +15,12 @@
 .title {
     font-weight: 800;
     font-size: 2.5rem;
+    color: var(--app-secondary-color);
 }
 
 a {
     text-decoration: none;
+    color: inherit;
 }
 
 .navBtn {
@@ -32,10 +34,18 @@ a {
 
 .main {
     height: calc(100vh - 8em);
+    align-items: center;
+    /* position: relative; */
     justify-content: flex-end;
 }
 
 .image {
+    /* position: absolute; */
     height: 100%;
     width: fit-content;
+}
+
+.headline {
+    font-size: 3.5rem;
+    font-weight: 900;
 }

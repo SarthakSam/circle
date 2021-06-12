@@ -1,11 +1,13 @@
 .nav {
     justify-content: space-between;
     align-items: center;
+    margin: auto;
 }
 
 .title {
     font-size: 2rem;
     font-weight: 600;
+    color: var(--app-secondary-color);
 }
 
 .navList {
