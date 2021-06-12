@@ -6,6 +6,7 @@ const express = require('express'),
       usersRouter = require('./apis/users.api'),
       uploadsRouter = require('./apis/uploads.api'),
       friendsRouter = require('./apis/friends.api'),
+      notificationsRouter = require('./apis/notifications.api'),
       isUserAuthenticated = require('./middlewares/isJwtValid');
 
 const PORT = process.env.PORT || 3001;
@@ -29,6 +30,7 @@ app.use('/posts', postsRouter);
 app.use('/users', friendsRouter);
 app.use('/users', usersRouter);
 app.use('/uploads', uploadsRouter);
+app.use('/notifications', notificationsRouter);
 
 app.get('/', (req, res) => {
     res.send('Social App');

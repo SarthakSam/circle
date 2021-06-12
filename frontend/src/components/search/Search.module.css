@@ -8,6 +8,8 @@
 
 .searchbar > input {
     border: none;
+    width: 40vw;
+    max-width: 270px;
     background: inherit;
     outline: none;
     font-size: 1.2rem;

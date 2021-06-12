@@ -3,7 +3,8 @@ const express = require('express'),
       Post    = require('../models/Post.model').Post,
       Reaction    = require('../models/Reaction.model').Reaction,
       Comment    = require('../models/Comment.model').Comment,
-      { parseUserId } = require('../utils/parse-functions');
+      { parseUserId } = require('../utils/parse-functions'),
+      createNotification = require('../utils/notifications');
 
 
 router.get('/', async ( req, res) => {
@@ -35,6 +36,7 @@ router.post('/:postId/like', async (req, res, next) => {
         const reaction = await Reaction.create({ reactedBy: parseUserId(req.user), type: 'LIKE' });
         post.reactions.push( reaction );
         await post.save();
+        createNotification({ user: post.author, type: 'LIKE', extraInfo: { post: post._id, reactedBy: parseUserId(req.user) } })
         res.status(201).json({ message: 'Success', reaction });
     } catch (error) {
         console.log(error);
@@ -65,6 +67,7 @@ router.post('/:postId/comments', async (req, res, next) => {
         const comment = await Comment.create({ content, author: userId });
         post.comments.push(comment);
         await post.save();
+        createNotification({ user: post.author, type: 'COMMENT', extraInfo: { post: post._id, commentedBy: parseUserId(req.user) } })
         res.status(201).json({ message: 'Success', comment });
     } catch (error) {
         console.log(error);
@@ -84,6 +87,7 @@ router.post('/:postId/comments/:commentId/replies', async (req, res, next) => {
         const reply = await Comment.create({ content, author: userId });
         comment.comments.push(reply);
         await comment.save();
+        createNotification({ user: comment.author, type: 'COMMENT', extraInfo: { post: post._id, commentedBy: parseUserId(req.user) } });
         res.status(201).json({ message: 'success',reply });
     } catch (error) {
         console.log(error);
