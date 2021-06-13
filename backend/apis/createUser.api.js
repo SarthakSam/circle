@@ -11,8 +11,8 @@ router.post('/', async (req, res, next) => {
             if(alreadyUser.googleId !== user.googleId) {
                 alreadyUser.googleId = user.googleId;
                 await alreadyUser.save();
-                return res.status(201).json({ message: 'Hello', user: alreadyUser });
             }
+            return res.status(201).json({ message: 'Hello', user: alreadyUser })
         } else {
             const newUser = await User.create(user);
             if(newUser) {
