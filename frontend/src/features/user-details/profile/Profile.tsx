@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { ImageUpload } from "../../../shared-components/image-upload/ImageUpload";
 import { imageUploader } from "../../../utils/imageUploader";
 import { showNotification } from "../../meta-info/metaInfoSlice";
-import { getFriendshipStatus, getUserDetails, saveUserDetails, selectCurrentUser, selectFriendShipStatus, setFriendShipStatus, selectVisitedUser, setVisitedUser } from "../usersSlice";
+import { getFriendshipStatus, getUserDetails, saveUserDetails, selectCurrentUser, selectFriendShipStatus, setFriendShipStatus, selectVisitedUser, setVisitedUser, updateVisitedUserDetails } from "../usersSlice";
 import styles from './Profile.module.css';
 import { UserInfoForm } from "./user-info-form/UserInfoForm";
 
@@ -34,8 +34,9 @@ export function Profile() {
             const response = await Promise.all( imageUploader(pictures) );
             const result = await dispatch( saveUserDetails( { [key]: response[0].data.image } ) );
             unwrapResult(result);
-            setImageUploadFor("none");
+            dispatch( updateVisitedUserDetails({ updates: { [key]: response[0].data.image } }) )
             dispatch( showNotification({ type: 'SUCCESS', message: 'Image uploaded successfully' }) );
+            setImageUploadFor("none");
         } catch(err) {
             dispatch( showNotification({ type: 'ERROR', message: 'Image upload failed' }) );
         }

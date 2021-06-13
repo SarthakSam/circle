@@ -16,10 +16,12 @@ const urlMapping = {
     'removeFriend': '/users/:user1/friends/:user2',
     'friendSuggestions': '/users/:user/suggestions',
     'getNotifications': '/notifications',
-    'updateNotification': '/notification/:id'
+    'updateNotification': '/notification/:id',
+    'uploads': '/uploads'
 }
 
-type urlMappingTypes = 'fetchPosts' | 'createPost' | 'saveUserDetails' | 'getCurrentUserDetails' | 'like' | 'unlike' | 'comment' | 'reply' | 'getUserDetails' | 'searchUsers' | 'getFriendshipStatus' | 'addFriend' | 'removeFriend' | 'friendSuggestions' | 'getNotifications' | 'updateNotification';
+type urlMappingTypes = 'fetchPosts' | 'createPost' | 'saveUserDetails' | 'getCurrentUserDetails' | 'like' | 'unlike' | 'comment' | 'reply' | 'getUserDetails' | 'searchUsers' | 'getFriendshipStatus' | 'addFriend' | 'removeFriend' | 'friendSuggestions' | 'getNotifications' | 'updateNotification' | 
+ 'uploads';
 
 export function getURL(urlMappingKey: urlMappingTypes, params: any = {}): string {
     return baseURL + Object.keys(params).reduce( ( acc: string, cur: string ) => {

@@ -45,6 +45,7 @@
     border-radius: 50%;
     background-color: grey;
     height: 220px;
+    width: 100%;
 }
 
 .editProfilePicButton {

@@ -97,6 +97,9 @@ export const usersSlice = createSlice({
         setVisitedUser: (state, action) => {
             state.visitedUser = action.payload.user;
         },
+        updateVisitedUserDetails: (state, action) => {
+            state.visitedUser = { ...state.visitedUser, ...action.payload.updates };
+        },
         setFriendShipStatus: (state, action) => {
             state.friendshipStatus = action.payload.status;
         }
@@ -142,7 +145,7 @@ export const usersSlice = createSlice({
     }
 });
 
-export const { updateUserDetails, setVisitedUser, setFriendShipStatus } = usersSlice.actions;
+export const { updateUserDetails, setVisitedUser, updateVisitedUserDetails, setFriendShipStatus } = usersSlice.actions;
 
 export const selectCurrentUser = (state: RootState) => state.users.currentUser;
 
