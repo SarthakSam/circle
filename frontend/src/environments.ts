@@ -4,5 +4,5 @@ const prodUrl: string = "https://buddees.netlify.app";
 const localApiUrl: string = "";
 const prodApiUrl: string = "https://buddees.netlify.app";
 
-export const redirectUrl = localUrl;
-export const baseURL = localApiUrl;
+export const redirectUrl = prodUrl;
+export const baseURL = prodApiUrl;

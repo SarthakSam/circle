@@ -30,7 +30,6 @@ export function Content() {
             dispatch( getCurrentUserDetails() );
         }
      }, [isAuthTokenSet, dispatch] );
-
      
     useEffect( () => {
         if(isAuthTokenSet) {
