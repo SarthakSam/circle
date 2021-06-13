@@ -31,12 +31,14 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true })); 
 
+
+app.use('/users', usersRouter);
+
 app.use(isUserAuthenticated);
 // app.use(fetchUserDetails);
 
 app.use('/posts', postsRouter);
 app.use('/users', friendsRouter);
-app.use('/users', usersRouter);
 app.use('/uploads', uploadsRouter);
 app.use('/notifications', notificationsRouter);
 
