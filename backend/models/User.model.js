@@ -9,7 +9,7 @@ const UserSchema = new Schema({
         emailVerified: { type: Boolean, default: false },
         headline: String,
         gender: String
-}, { timestamps: true });
+}, { timestamps: true }, { _id: false });
 
 const User = model('user', UserSchema);
 
