@@ -1,6 +1,7 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Mongoose } = require('mongoose');
 
 const UserSchema = new Schema({
+        _id: { type: mongoose.Types.ObjectId, default: mongoose.Types.ObjectId() },
         firstname: { type: String, default: ""},
         lastname: { type: String, default: ""},
         email: { type: String, required: 'Email is mandatory', unique: 'A user with this email aready exists' },
@@ -9,7 +10,7 @@ const UserSchema = new Schema({
         emailVerified: { type: Boolean, default: false },
         headline: String,
         gender: String
-}, { timestamps: true }, { _id: false });
+}, { timestamps: true });
 
 const User = model('user', UserSchema);
 
