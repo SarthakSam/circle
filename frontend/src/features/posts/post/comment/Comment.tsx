@@ -34,7 +34,7 @@ export function Comment({ _id, content, comments: replies, author, postId }: ICo
             <Avatar size={40} src = { author.profilePic?.url } />
             <div className={ styles.comment }>
                 <div className={ styles.commentBody }>
-                    <UserInfo name={ author.firstname + " " + author.lastname } userId={ author._id! } headline={ author.headline } />
+                    <UserInfo name={ `${author.firstname} ${author.lastname}` } userId={ author._id! } headline={ author.headline } />
                     <p>{ content }</p>
                 </div>
                 <button className={ styles.replyBtn } onClick = { onReplyClick } >Reply</button>
