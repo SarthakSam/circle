@@ -8,6 +8,7 @@ const express = require('express'),
       friendsRouter = require('./apis/friends.api'),
       notificationsRouter = require('./apis/notifications.api'),
       isUserAuthenticated = require('./middlewares/isJwtValid'),
+      { parseUserId } = require('./utils/parse-functions'),
       cors = require('cors');
 
 
@@ -31,12 +32,13 @@ app.use(express.json());
 app.use(cors());
 app.use(express.urlencoded({ extended: true })); 
 
-
-app.use('/users', usersRouter);
+app.use('/users', require('./apis/createUser.api'));
 
 app.use(isUserAuthenticated);
+app.use(parseUserId);
 // app.use(fetchUserDetails);
 
+app.use('/users', usersRouter);
 app.use('/posts', postsRouter);
 app.use('/users', friendsRouter);
 app.use('/uploads', uploadsRouter);

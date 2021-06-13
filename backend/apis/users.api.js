@@ -2,14 +2,13 @@ const express = require('express'),
       router = express.Router(),
       { User } = require('../models/User.model'),
       { Friend } = require('../models/Friend.model'),
-      isUserAuthenticated =  require('../middlewares/isJwtValid'),
-      {parseUserId, parseUserDetails} = require('../utils/parse-functions');
+      {parseUserDetails} = require('../utils/parse-functions');
 
-router.get('/' , isUserAuthenticated, getUser, (req, res) => {
+router.get('/' , getUser, (req, res) => {
     res.status(200).json({ message: 'Success', user: parseUserDetails(req.userDetails) });
 });
 
-router.get('/search', isUserAuthenticated, async (req, res, next) => {
+router.get('/search', async (req, res, next) => {
     const query = req.query.searchQuery;
     const regex = new RegExp(query, "gi");
     try {
@@ -22,26 +21,11 @@ router.get('/search', isUserAuthenticated, async (req, res, next) => {
     }
 });
 
-router.post('/', async (req, res, next) => {
-    const user = req.body;
-    console.log("logging this message for debugging", {user}, req.user);
-    try {
-        const newUser = await User.create(user);
-        if(newUser) {
-            return res.status(201).json({ message: `Hi ${user.username}`, user: newUser });
-        }
-        res.status(500).json({ errorMessage: "Something went wrong." });
-    } catch(err) {
-        console.log(err);
-        next(err);
-    }
-});
-
-router.put('/', isUserAuthenticated, async (req, res, next) => {
+router.put('/', async (req, res, next) => {
     const updatedDetails = req.body;
     console.log(updatedDetails);
     try {
-        const updatedUser = await User.findByIdAndUpdate( parseUserId(req.user), updatedDetails, {new: true});
+        const updatedUser = await User.findByIdAndUpdate( req.userId, updatedDetails, {new: true});
         if(updatedUser) {
             console.log(updatedUser);
             return res.status(200).json({ message: 'Success', user: parseUserDetails(updatedUser) });
@@ -53,7 +37,7 @@ router.put('/', isUserAuthenticated, async (req, res, next) => {
     }
 });
 
-router.get('/:userId', isUserAuthenticated, async (req, res, next) => {
+router.get('/:userId', async (req, res, next) => {
     return res.status(200).json({ user: parseUserDetails(req.currentUser), message: 'Success' });
     // console.log(req.params.userId);
     // try {
@@ -68,7 +52,7 @@ router.get('/:userId', isUserAuthenticated, async (req, res, next) => {
     // }
 });
 
-router.get('/:userId/suggestions', isUserAuthenticated, async (req, res, err) => {
+router.get('/:userId/suggestions', async (req, res, err) => {
     const user = req.params.userId;
     try {
         const friends = await Friend.find({  $and: [{ $or: [{user1: user}, {user2: user}] }, {status: "FRIENDS"} ] }).select("_id").exec();
@@ -97,7 +81,7 @@ router.param('userId', async (req, res, next, userId) => {
 
 
 async function getUser(req, res, next) {
-    const userId = parseUserId(req.user);
+    const userId = req.userId;
     console.log(userId);
     try {
         const user = await User.findById(userId);

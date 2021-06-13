@@ -1,11 +1,10 @@
 
 const express = require('express'),
       router  = express.Router(),
-      {parseUserId} = require('../utils/parse-functions'),
       { Notification } = require('../models/Notification.model');
 
 router.get('/', async (req, res, next) => {
-    const user = parseUserId(req.user);
+    const user = req.userId;
     try {
         const notifications = await Notification.find({ notificationFor: user }).populate('notificationBy', "firstname lastname profilePic");
         res.status(200).json({ message: 'Success', notifications });

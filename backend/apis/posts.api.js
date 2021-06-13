@@ -3,7 +3,6 @@ const express = require('express'),
       Post    = require('../models/Post.model').Post,
       Reaction    = require('../models/Reaction.model').Reaction,
       Comment    = require('../models/Comment.model').Comment,
-      { parseUserId } = require('../utils/parse-functions'),
       createNotification = require('../utils/notifications');
 
 
@@ -19,7 +18,7 @@ router.get('/', async ( req, res) => {
 
 router.post('/', async (req, res) => {
     const post = req.body;
-    post.author = parseUserId(req.user);
+    post.author = req.userId;
     try {
         const newPost = (await Post.create(post))
         await newPost.execPopulate('author', 'firstname lastname profilePic');
@@ -33,10 +32,10 @@ router.post('/', async (req, res) => {
 router.post('/:postId/like', async (req, res, next) => {
     const post = req.post;
     try {
-        const reaction = await Reaction.create({ reactedBy: parseUserId(req.user), type: 'LIKE' });
+        const reaction = await Reaction.create({ reactedBy: req.userId, type: 'LIKE' });
         post.reactions.push( reaction );
         await post.save();
-        createNotification({ notificationFor: post.author, type: 'LIKE', notificationBy: parseUserId(req.user), extraInfo: { post: post._id } });
+        createNotification({ notificationFor: post.author, type: 'LIKE', notificationBy: req.userId, extraInfo: { post: post._id } });
         res.status(201).json({ message: 'Success', reaction });
     } catch (error) {
         console.log(error);
@@ -46,7 +45,7 @@ router.post('/:postId/like', async (req, res, next) => {
 
 router.post('/:postId/unlike', async (req, res, next) => {
     let post = req.post;
-    const userId = parseUserId(req.user);
+    const userId = req.userId;
     try {
         post = await post.execPopulate('reactions');
         const reaction = post.reactions.find(reaction => reaction.reactedBy.equals(userId));
@@ -62,12 +61,12 @@ router.post('/:postId/unlike', async (req, res, next) => {
 router.post('/:postId/comments', async (req, res, next) => {
     let post = req.post;
     const content = req.body.commentBody;
-    const userId = parseUserId(req.user);
+    const userId = req.userId;
     try {
         const comment = await Comment.create({ content, author: userId });
         post.comments.push(comment);
         await post.save();
-        createNotification({ notificationFor: post.author, type: 'COMMENT', notificationBy: parseUserId(req.user), extraInfo: { post: post._id } });
+        createNotification({ notificationFor: post.author, type: 'COMMENT', notificationBy: req.userId, extraInfo: { post: post._id } });
         res.status(201).json({ message: 'Success', comment });
     } catch (error) {
         console.log(error);
@@ -78,7 +77,7 @@ router.post('/:postId/comments', async (req, res, next) => {
 router.post('/:postId/comments/:commentId/replies', async (req, res, next) => {
     console.log(req.body)
     const content = req.body.reply;
-    const userId = parseUserId(req.user);
+    const userId = req.userId;
     try {
         let comment = await Comment.findById(req.params.commentId);
         if(!comment) {
@@ -87,7 +86,7 @@ router.post('/:postId/comments/:commentId/replies', async (req, res, next) => {
         const reply = await Comment.create({ content, author: userId });
         comment.comments.push(reply);
         await comment.save();
-        createNotification({ notificationFor: comment.author, type: 'COMMENT', notificationBy: parseUserId(req.user), extraInfo: { post: post._id } });
+        createNotification({ notificationFor: comment.author, type: 'COMMENT', notificationBy: req.userId, extraInfo: { post: post._id } });
         res.status(201).json({ message: 'success',reply });
     } catch (error) {
         console.log(error);
