@@ -24,13 +24,13 @@ router.get('/search', isUserAuthenticated, async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
     const user = req.body;
-    console.log(user);
+    console.log("logging this message for debugging", {user}, req.user);
     try {
-        const newUser = User.create(user);
+        const newUser = await User.create(user);
         if(newUser) {
             return res.status(201).json({ message: `Hi ${user.username}`, user: newUser });
         }
-        res.status(500).json("Something went wrong.");
+        res.status(500).json({ errorMessage: "Something went wrong." });
     } catch(err) {
         console.log(err);
         next(err);
