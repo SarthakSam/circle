@@ -1,0 +1,8 @@
+const localUrl: string = "http://localhost:3000";
+const prodUrl: string = "https://buddees.netlify.app";
+
+const localApiUrl: string = "";
+const prodApiUrl: string = "https://buddees.netlify.app";
+
+export const redirectUrl = localUrl;
+export const baseURL = localApiUrl;
