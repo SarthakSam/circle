@@ -18,7 +18,7 @@ export function Nav() {
     return (
         <nav className= { `row col-8 col-xl-10 col-lg-11 col-md-12 m-0 ${styles.nav}` }>
                 <span className={ styles.title }>
-                    <Link to='/feed' >Connect</Link>
+                    <Link to='/feed' >Buddees</Link>
                 </span>
                 <Search />
                 <ul className={ styles.navList }>

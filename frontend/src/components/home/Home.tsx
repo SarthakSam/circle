@@ -5,11 +5,11 @@ import styles from './Home.module.css';
 import { redirectUrl } from '../../environments';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../app/hooks';
-import { hideLoader, showLoader } from '../../features/meta-info/metaInfoSlice';
+import { hideLoader, showLoader, showNotification } from '../../features/meta-info/metaInfoSlice';
 
 
 export function Home() {
-    const { loginWithRedirect, isAuthenticated, isLoading } = useAuth0();
+    const { loginWithRedirect, isAuthenticated, isLoading, error } = useAuth0();
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
 
@@ -22,7 +22,13 @@ export function Home() {
             dispatch( showLoader() )
         else
             dispatch( hideLoader() )
-    }, [isLoading])
+    }, [isLoading, dispatch])
+
+    useEffect( () => {
+        if(error) {
+            dispatch(showNotification( { type: 'ERROR', message: error.message } ));
+        }
+    }, [error, dispatch]);
 
     const signup = () => {
         loginWithRedirect({ screen_hint: "signup",  redirectUri: `${redirectUrl}/initial-info`  });
@@ -36,7 +42,7 @@ export function Home() {
         <div className={`row ${styles.home}`} >
                 <nav className={`row col-10 ${styles.nav}`}>
                     <span className={styles.title}>
-                        <Link to="/">Connect</Link>
+                        <Link to="/">Buddees</Link>
                     </span>
                     <ul>
                         <button className={`btn btn--inverted ${styles.navBtn}`} onClick={ signup } >Join Now</button>
