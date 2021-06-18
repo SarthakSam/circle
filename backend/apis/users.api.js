@@ -55,9 +55,11 @@ router.get('/:userId', async (req, res, next) => {
 router.get('/:userId/suggestions', async (req, res, err) => {
     const user = req.params.userId;
     try {
-        const friends = await Friend.find({  $and: [{ $or: [{user1: user}, {user2: user}] }, {status: "FRIENDS"} ] }).select("_id").exec();
+        let friends = await Friend.find({  $and: [{ $or: [{user1: user}, {user2: user}] }, {status: "FRIENDS"} ] }).select({user1: 1, user2: 1}).exec();
+        friends = friends.map( obj => obj.user1.equals(user)? obj.user2 : obj.user1 );
+        // console.log(friends);
         friends.push({_id: user });
-        const suggestions = await User.find({ _id: { $nin: friends } }).select({ firstname: 1, lastname: 1, profilePic: 1 })
+        const suggestions = await User.find({ _id: { $nin: friends } }).limit(8).select({ firstname: 1, lastname: 1, profilePic: 1 })
         res.status(200).json({ message: 'Success', suggestions });
     } catch (err) {
         console.log(err);

@@ -48,6 +48,10 @@ export function UserInfoForm( { user, currentUser, friendshipStatus }: {user: IU
         }
     }
 
+    const canSubmitForm = () => {
+        return !(userInfo.firstname && userInfo.lastname);
+    }
+
     return (
         <form className={ `row ${styles.userInfoForm}` } onSubmit = { saveChanges } >           
                 <div className="col-8 col-lg-10 col-sm-12" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -93,7 +97,7 @@ export function UserInfoForm( { user, currentUser, friendshipStatus }: {user: IU
                 <div className = "col-8 col-lg-10 col-sm-12">
                     <label htmlFor="headline">Headline</label>
                     <div className={ `input input--fluid ${ userInfo._id !== currentUser._id? styles.uneditable : '' }`}>
-                        <input type="text" name="headline" disabled = { userInfo._id !== currentUser._id } id="headline" value={ userInfo.headline || "Not added" } onChange = { (e: ChangeEvent<HTMLInputElement>) => { onChange('headline', e.target.value) } }/>
+                        <input type="text" name="headline" disabled = { userInfo._id !== currentUser._id } id="headline" placeholder="Not added" value={ userInfo.headline } onChange = { (e: ChangeEvent<HTMLInputElement>) => { onChange('headline', e.target.value) } }/>
                     </div>
                 </div>
 
@@ -124,7 +128,7 @@ export function UserInfoForm( { user, currentUser, friendshipStatus }: {user: IU
                 {
                      userInfo._id === currentUser._id && 
                     <div className="col-8 col-lg-10 col-sm-12">
-                        <button className="btn btn--primary">Save Changes</button>
+                        <button className="btn btn--primary" disabled={ canSubmitForm() } >Save Changes</button>
                     </div>
                 }
         </form>
