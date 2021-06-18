@@ -1,56 +1,36 @@
-import React from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
-import './App.css';
+import styles from './App.module.css';
+import { Loader } from './features/meta-info/loader/Loader';
+import { NewPost } from './features/posts/new-post/NewPost';
+import { Routes, Route } from 'react-router-dom';
+import { Home } from './components/home/Home';
+import Content from './components/content/Content';
+import { Feed } from './components/feed/Feed';
+// import { Authentication } from './features/authentication/Authentication';
+// import { Profile } from './features/user-details/Profile';
+import { Notifications } from './features/meta-info/notifications/Notifications';
+import { InitialInfo } from './features/user-details/inital-info/InitialInfo';
+import { NotFound } from './components/not-found/NotFound';
+import { Profile } from './features/user-details/profile/Profile';
+import { NotificationsPage } from './features/notifications/notifications-page/NotificationsPage';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
+    <div className={ styles.app }>
+      <Routes>
+        <Route path="/" element={ <Home />} />
+        <Route path="/home" element={ <Home />} />
+        <Route path='/' element={ <Content /> } >
+           <Route path="feed" element={<Feed />} />
+           <Route path="newPost" element={<NewPost />} />
+           <Route path="/initial-info" element={ <InitialInfo />} />
+           <Route path="profile/:userId" element={<Profile />} />
+           <Route path="notifications" element={<NotificationsPage />} />
+        </Route>
+           {/* <Route path="private" element={<Authentication/>} /> */}
+        <Route path="*" element= { <NotFound /> } />
+      </Routes>
+      <Loader /> 
+      <Notifications />
     </div>
   );
 }

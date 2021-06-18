@@ -1,0 +1,12 @@
+.loaderContainer {
+    height: 100vh;
+    position: absolute;
+    justify-content: space-around;
+    align-items: center;
+    top: 0;
+}
+
+.loader {
+    height: 220px;
+    width: 220px;
+}

@@ -1,0 +1,9 @@
+.feed {
+    justify-content: space-around;
+}
+
+@media screen and (max-width: 760px) {
+    .suggestions {
+        display: none;
+    }
+}

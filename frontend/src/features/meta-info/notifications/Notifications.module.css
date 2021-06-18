@@ -1,0 +1,9 @@
+.notification__container {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 4;
+    width:  80vw;
+    max-width: 350px;
+    list-style: none;
+}
